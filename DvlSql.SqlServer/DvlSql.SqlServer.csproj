@@ -2,20 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>3.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>David Dvali</Company>
+    <Authors>David Dvali</Authors>
+    <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</RepositoryUrl>
+    <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
+    <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DvlSql.Extensions" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="SystemNET.Exts" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DvlSql">
-      <HintPath>..\..\DvlSql\Dvl_Sql\bin\Debug\net5.0\DvlSql.dll</HintPath>
-    </Reference>
-    <Reference Include="DvlSql.Extensions">
-      <HintPath>..\..\Dvl_Sql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
