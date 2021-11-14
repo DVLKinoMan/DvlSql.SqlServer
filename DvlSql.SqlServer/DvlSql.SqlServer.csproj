@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="SystemNET.Exts" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DvlSql">
+      <HintPath>..\..\DvlSql\Dvl_Sql\bin\Debug\net5.0\DvlSql.dll</HintPath>
+    </Reference>
+    <Reference Include="DvlSql.Extensions">
+      <HintPath>..\..\Dvl_Sql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
