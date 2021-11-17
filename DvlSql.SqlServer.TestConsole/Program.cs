@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DvlSql.Extensions;
+using static DvlSql.Extensions.ExpressionHelpers;
 
 namespace DvlSql.SqlServer.TestConsole
 {
@@ -14,6 +16,7 @@ namespace DvlSql.SqlServer.TestConsole
 
             //Select ids from table ordered by date
             List<int> ids = dvl_sql.From("casbin_rule")
+                .Where(ConstantExpCol("id") == 1)
                                     .Select("id", "v0", "v1")
                                     .ToListAsync(r => (int)r["id"])
                                     .Result;

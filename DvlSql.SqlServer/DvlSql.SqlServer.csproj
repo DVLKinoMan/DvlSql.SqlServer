@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>David Dvali</Company>
     <Authors>David Dvali</Authors>
@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="DvlSql.Extensions" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="SystemNET.Exts" Version="1.0.0" />
+    <PackageReference Include="SystemNET.Exts" Version="1.1.0" />
   </ItemGroup>
 
 </Project>
