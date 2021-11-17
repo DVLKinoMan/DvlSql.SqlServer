@@ -13,26 +13,24 @@ string connectionString =
 var dvl_sql = new DvlSqlMs(connectionString);
 
 //Select ids from table ordered by date
-List<int> ids = dvl_sql.From("tableName")
+List<int> ids = await dvl_sql.From("tableName")
                         .Select("id", "col1", "col2")
                         .OrderBy("date")
-                        .ToListAsync(r => (int) r["id"])
-                        .Result;
+                        .ToListAsync(r => (int) r["id"]);
 
 //using static DvlSql.Extensions.ExpressionHelpers; (For Expressions)
 //Select top 100 youngest persons Name and Age, whose names contains david and are living in Tbilisi
-var personInfo = dvl_sql.From("Persons")
+var personInfo = await dvl_sql.From("Persons")
                         .Join("Addresses", ConstantExp("Persons.Id") == ConstantExp("Addresses.PersonId"))
                         .Where(LikeExp("Persons.Name", "%david%") & 
                                ConstantExp("Addresses.City") == ConstantExp("Tbilisi"))
                         .SelectTop(100, "Name", "Age")
                         .OrderBy("Age")
-                        .ToListAsync(r => new {Name = r["Name"].ToString(), Age = (int) r["Age"]})
-                        .Result;
+                        .ToListAsync(r => new {Name = r["Name"].ToString(), Age = (int) r["Age"]});
 
 //using static DvlSql.Extensions.SqlType; (For NVarCharType)
 //Inserting word and there meanings in table
-var affectedRows1 = dvl_sql.InsertInto<string, string>("dbo.Words",
+var affectedRows1 = await dvl_sql.InsertInto<string, string>("dbo.Words",
                                 NVarCharType("Text", 50),
                                 NVarCharType("Meaning", 1000)
                             )
@@ -41,23 +39,25 @@ var affectedRows1 = dvl_sql.InsertInto<string, string>("dbo.Words",
                                 ("March", "Month's name")
                                 //More values if you want
                             )
-                            .ExecuteAsync().Result;
+                            .ExecuteAsync();
 
 //using static DvlSql.Extensions.ExpressionHelpers; 
 //using static DvlSql.Extensions.SqlType;
 //Update product Price and UpdatedDate which price is 2.11
-var affectedRows2 = dvl_sql.Update("dbo.Products")
+var affectedRows2 = await dvl_sql.Update("dbo.Products")
                             .Set(Money("Price",new decimal(3.11)))
                             .Set(DateTime("UpdatedDate", System.DateTime.Now))
                             //Update more columns if you want
                             .Where(ConstantExp("Price") == ConstantExp("@price"),
                                 Param("@price", Decimal(new decimal(2.11))))
-                            .ExecuteAsync().Result;
+                            .ExecuteAsync();
 
 //using static DvlSql.Extensions.ExpressionHelpers; 
 //using static DvlSql.Extensions.SqlType;
 //Delete all words which contains test 
-var affectedRows3 = dvl_sql.DeleteFrom("dbo.Words")
+var affectedRows3 = await dvl_sql.DeleteFrom("dbo.Words")
                             .Where(LikeExp("Text", "%test%"))
-                            .ExecuteAsync().Result;
+                            .ExecuteAsync();
 ```
+# P.S
+You can also find many different examples in DvlSql.SqlServer.Tests project for now.
