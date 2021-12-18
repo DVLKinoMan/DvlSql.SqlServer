@@ -36,15 +36,15 @@ namespace DvlSql.SqlServer.Select
             var select = _sql.From(TableName)
                 .Select(fields);
 
-            if (fields.Any(string.IsNullOrEmpty))
-            {
-                Assert.Throws<ArgumentException>(() => select.ToString());
-                return;
-            }
+            //if (fields.Any(string.IsNullOrEmpty))
+            //{
+            //    Assert.Throws<ArgumentException>(() => select.ToString());
+            //    return;
+            //}
 
             var actualSelect = select.ToString();
             Console.WriteLine(actualSelect);
-            var expectedSelect = Regex.Escape($"SELECT {(fields.Length == 0 ? "*" : string.Join(", ", fields))} FROM {TableName}");
+            var expectedSelect = Regex.Escape($"SELECT {(fields == null || fields.Length == 0 ? "*" : string.Join(", ", fields))} FROM {TableName}");
 
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }

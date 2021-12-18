@@ -15,7 +15,7 @@ namespace DvlSql.SqlServer
 
         public SqlSelector(DvlSqlFromExpression sqlFromExpression, IDvlSqlConnection dvlSqlConnection)
         {
-            this._unionExpression.Add(new DvlSqlFullSelectExpression() {From = sqlFromExpression});
+            this._unionExpression.Add(FullSelectExp(SelectExp(), sqlFromExpression));
             this._dvlSqlConnection = dvlSqlConnection;
         }
 
@@ -38,21 +38,21 @@ namespace DvlSql.SqlServer
 
         public ISelector From(string tableName, bool withNoLock = false)
         {
-            this.CurrFullSelectExpression.From = FromExp(tableName, withNoLock);
+            this._unionExpression.Add(FullSelectExp(SelectExp(), FromExp(tableName, withNoLock)));
 
             return this;
         }
 
         public ISelector From(DvlSqlFullSelectExpression @select)
         {
-            this.CurrFullSelectExpression.From = @select;
+            this._unionExpression.Add(@select);
 
             return this;
         }
 
         public ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression)
         {
-            this.CurrFullSelectExpression.From = fromWithTableExpression;
+            this._unionExpression.Add(FullSelectExp(SelectExp(), fromWithTableExpression));
 
             return this;
         }
@@ -104,52 +104,52 @@ namespace DvlSql.SqlServer
 
         public ISelector Join(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlInnerJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlInnerJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlFullJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlFullJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlFullJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlFullJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlLeftJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlLeftJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlLeftJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlLeftJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.Join.Add(new DvlSqlRightJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join?.Add(new DvlSqlRightJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
@@ -188,14 +188,14 @@ namespace DvlSql.SqlServer
 
         public ISelectable Having(DvlSqlBinaryExpression binaryExpression)
         {
-            this.CurrFullSelectExpression.GroupBy.BinaryExpression = binaryExpression;
+            this.CurrFullSelectExpression.GroupBy!.BinaryExpression = binaryExpression;
 
             return this;
         }
 
         public ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
-            this.CurrFullSelectExpression.GroupBy.BinaryExpression = binaryExpression;
+            this.CurrFullSelectExpression.GroupBy!.BinaryExpression = binaryExpression;
             this.CurrFullSelectExpression.GroupBy.WithParameters(@params);
 
             return this;
@@ -206,7 +206,6 @@ namespace DvlSql.SqlServer
             var last = this._unionExpression.Last();
             this._unionExpression.RemoveAt(this._unionExpression.Count - 1);
             this._unionExpression.Add((last.Expression, UnionType.Union));
-            this._unionExpression.Add(new DvlSqlFullSelectExpression());
             
             return this;
         }
@@ -216,7 +215,6 @@ namespace DvlSql.SqlServer
             var last = this._unionExpression.Last();
             this._unionExpression.RemoveAt(this._unionExpression.Count - 1);
             this._unionExpression.Add((last.Expression, UnionType.UnionAll));
-            this._unionExpression.Add(new DvlSqlFullSelectExpression());
             
             return this;
         }

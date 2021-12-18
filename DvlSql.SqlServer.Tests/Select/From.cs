@@ -1,7 +1,4 @@
-﻿
-using DvlSql.SqlServer;
-using NUnit.Framework;
-using System;
+﻿using NUnit.Framework;
 using System.Text.RegularExpressions;
 using static DvlSql.Extensions.ExpressionHelpers;
 
@@ -18,11 +15,10 @@ namespace DvlSql.SqlServer.Select
         [TestCase("dbo.Words")]
         public void WithoutSelect(string tableName)
         {
-            var from = this._sql.From(tableName);
+            var from = this._sql.From(tableName).ToString();
 
-            Assert.Throws<ArgumentNullException>(() =>
-                @from.ToString()
-            );
+            var expectedSelect = Regex.Escape($"SELECT * FROM {tableName}");
+            Assert.That(Regex.Escape(from), Is.EqualTo(expectedSelect));
         }
 
         [Test]

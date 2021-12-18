@@ -8,23 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DvlSql.Extensions" Version="3.0.3" />
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DvlSql.SqlServer\DvlSql.SqlServer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DvlSql">
-      <HintPath>..\..\DvlSql\Dvl_Sql\bin\Debug\net5.0\DvlSql.dll</HintPath>
-    </Reference>
-    <Reference Include="DvlSql.Extensions">
-      <HintPath>..\..\Dvl_Sql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

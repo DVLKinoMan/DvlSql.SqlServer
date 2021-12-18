@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql.Extensions" Version="3.0.0" />
+    <PackageReference Include="DvlSql.Extensions" Version="3.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="SystemNET.Exts" Version="1.1.0" />
   </ItemGroup>
