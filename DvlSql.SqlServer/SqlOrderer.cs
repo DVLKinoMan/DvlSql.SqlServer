@@ -8,12 +8,10 @@ using static DvlSql.Extensions.DataReader;
 
 namespace DvlSql.SqlServer
 {
-    internal class SqlOrderer : IOrderer
+    internal class SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) : IOrderer
     {
-        private readonly SqlSelector _selector;
-        private readonly IDvlSqlConnection _connection;
-
-        public SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) => (this._connection, this._selector) = (connection, selector);
+        private readonly SqlSelector _selector = selector;
+        private readonly IDvlSqlConnection _connection = connection;
 
         public IOrderExecutable OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
 

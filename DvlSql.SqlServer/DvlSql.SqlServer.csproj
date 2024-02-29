@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
     <Version>3.0.3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="DvlSql.Extensions" Version="3.0.3" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="SystemNET.Exts" Version="1.1.0" />
   </ItemGroup>
 

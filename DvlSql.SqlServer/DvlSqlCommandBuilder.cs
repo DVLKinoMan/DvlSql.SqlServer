@@ -7,11 +7,9 @@ using static System.Exts.Extensions;
 
 namespace DvlSql.SqlServer
 {
-    internal class DvlSqlCommandBuilder : ISqlExpressionVisitor
+    internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisitor
     {
-        private readonly StringBuilder _command;
-
-        public DvlSqlCommandBuilder(StringBuilder command) => this._command = command;
+        private readonly StringBuilder _command = command;
 
         public void Visit(DvlSqlFromExpression expression)
         {

@@ -12,7 +12,7 @@ namespace DvlSql.SqlServer
     {
         // private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly SqlConnection _connection;
-        private DbTransaction _transaction;
+        private DbTransaction? _transaction;
         private readonly IDvlSqlMsCommandFactory _commandFactory;
 
         public DvlSqlConnection(string connectionString) =>
@@ -24,7 +24,7 @@ namespace DvlSql.SqlServer
         public void Dispose()
         {
             //this._commands.Clear();
-            this._transaction.Dispose();
+            this._transaction?.Dispose();
             this._transaction = null;
             if(this._connection.State != ConnectionState.Closed)
                 this._connection.Close();
@@ -77,7 +77,8 @@ namespace DvlSql.SqlServer
         public async ValueTask DisposeAsync()
         {
             //this._commands.Clear();
-            await this._transaction.DisposeAsync();
+            if (this._transaction != null)
+                await this._transaction.DisposeAsync();
             this._transaction = null;
             if (this._connection.State != ConnectionState.Closed)
                 await this._connection.CloseAsync();

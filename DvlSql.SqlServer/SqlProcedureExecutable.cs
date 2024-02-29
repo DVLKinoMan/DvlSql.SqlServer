@@ -5,16 +5,12 @@ using System.Threading.Tasks;
 
 namespace DvlSql.SqlServer
 {
-    internal class SqlProcedureExecutable : IProcedureExecutable
+    internal class SqlProcedureExecutable (IDvlSqlConnection dvlSqlConnection, string procedureName,
+            params DvlSqlParameter[] parameters) : IProcedureExecutable
     {
-        private readonly IDvlSqlConnection _dvlSqlConnection;
-        private readonly string _procedureName;
-        private readonly DvlSqlParameter[] _parameters;
-
-        public SqlProcedureExecutable(IDvlSqlConnection dvlSqlConnection, string procedureName,
-            params DvlSqlParameter[] parameters) =>
-            (this._dvlSqlConnection, this._procedureName, this._parameters) =
-            (dvlSqlConnection, procedureName, parameters);
+        private readonly IDvlSqlConnection _dvlSqlConnection = dvlSqlConnection;
+        private readonly string _procedureName = procedureName;
+        private readonly DvlSqlParameter[] _parameters = parameters;
 
         public async Task<int> ExecuteAsync(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default,

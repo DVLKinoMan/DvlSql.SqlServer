@@ -6,7 +6,7 @@ namespace DvlSql.SqlServer
 {
     internal class DvlSqlMsCommandFactory : IDvlSqlMsCommandFactory
     {
-        public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction transaction = null,
+        public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction? transaction = null,
             params SqlParameter[] parameters)
         {
             var command = new SqlCommand(sqlString, connection)

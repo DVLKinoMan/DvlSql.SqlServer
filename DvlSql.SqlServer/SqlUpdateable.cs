@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace DvlSql.SqlServer
 {
-    internal class SqlUpdateable : IUpdateable
+    internal class SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) : IUpdateable
     {
-        private readonly IDvlSqlConnection _dvlSqlConnection;
-        private readonly DvlSqlUpdateExpression _updateExpression;
+        private readonly IDvlSqlConnection _dvlSqlConnection = dvlSqlConnection;
+        private readonly DvlSqlUpdateExpression _updateExpression = updateExpression;
         private IInsertDeleteExecutable<int> _updateExecutable;
-
-        public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) =>
-            (this._dvlSqlConnection, this._updateExpression) = (dvlSqlConnection, updateExpression);
 
         public IUpdateable Set<TVal>(DvlSqlType<TVal> value)
         {

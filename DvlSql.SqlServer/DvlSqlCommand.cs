@@ -9,11 +9,9 @@ namespace DvlSql.SqlServer
     /// <summary>
     /// todo maybe sqlcommand will have timeout and cancellationtoken already
     /// </summary>
-    internal class DvlSqlCommand : IDvlSqlCommand //: IDvlSqlCommand<TResult>
+    internal class DvlSqlCommand(SqlCommand command) : IDvlSqlCommand //: IDvlSqlCommand<TResult>
     {
-        private readonly SqlCommand _sqlCommand;
-
-        public DvlSqlCommand(SqlCommand command) => this._sqlCommand = command;
+        private readonly SqlCommand _sqlCommand = command;
 
         private static SqlCommand WithTimeout(SqlCommand command, int timeout)
         {

@@ -11,15 +11,9 @@ using static System.Exts.Extensions;
 
 namespace DvlSql.SqlServer
 {
-    internal class SqlDeletable : RemoveOutputable<int>, IDeletable
+    internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSqlConnection dvlSqlConnection) : RemoveOutputable<int>(new DvlSqlDeleteExpression(fromExpression), dvlSqlConnection,
+            (command, timeout, token) => command.ExecuteNonQueryAsync(timeout, token ?? default)), IDeletable
     {
-        public SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSqlConnection dvlSqlConnection) :
-            base(new DvlSqlDeleteExpression(fromExpression), dvlSqlConnection,
-                (command, timeout, token) => command.ExecuteNonQueryAsync(timeout, token ?? default))
-        {
-
-        }
-
         protected void SetOutputExpression(DvlSqlTableDeclarationExpression intoTable, string[] cols)
         {
             this.DeleteExpression.OutputExpression = OutputExp(intoTable, cols);
