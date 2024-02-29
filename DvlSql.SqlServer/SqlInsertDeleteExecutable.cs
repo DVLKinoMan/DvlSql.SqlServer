@@ -21,7 +21,7 @@ namespace DvlSql.SqlServer
             await this._connection.ConnectAsync(
                 dvlCommand => _reader(dvlCommand, timeout, cancellationToken), 
                 this._sqlStringFunc(),
-                parameters: this._getDvlSqlParameters()?.ToArray());
+                parameters: this._getDvlSqlParameters().ToArray());
 
         public override string ToString() => this._sqlStringFunc();
     }

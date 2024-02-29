@@ -26,14 +26,14 @@ namespace DvlSql.SqlServer
             await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(selectorFunc), timeout, behavior, cancellationToken),
                 this._selector.ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public async Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(r => (TResult)r[0]), timeout, behavior, cancellationToken),
                 this._selector.ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public async Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
             Func<IDataReader, TKey> keySelector,
@@ -44,7 +44,7 @@ namespace DvlSql.SqlServer
                 dvlCommand => dvlCommand.ExecuteReaderAsync(AsDictionary(keySelector, valueSelector), timeout, behavior,
                     cancellationToken),
                 this._selector.ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public async Task<TResult> FirstAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
@@ -57,21 +57,21 @@ namespace DvlSql.SqlServer
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(First(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
-        public async Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default,
+        public async Task<TResult?> FirstOrDefaultAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
             await FirstOrDefaultAsync(
                 reader => reader[0] is TResult res ? res : default, timeout,
                 cancellationToken);
 
-        public async Task<TResult> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
+        public async Task<TResult?> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
             int? timeout = default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(FirstOrDefault(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public async Task<bool> AnyAsync(int? timeout = default,
             CancellationToken cancellationToken = default) =>
@@ -80,7 +80,7 @@ namespace DvlSql.SqlServer
                     dvlCommand.ExecuteReaderAsync(r=> r.Read(), timeout,
                         cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public async Task<bool> AllAsync(int? timeout = default,
             CancellationToken cancellationToken = default)
@@ -100,22 +100,22 @@ namespace DvlSql.SqlServer
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(Single(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
-        public async Task<TResult> SingleOrDefaultAsync<TResult>(int? timeout = null,
+        public async Task<TResult?> SingleOrDefaultAsync<TResult>(int? timeout = null,
             CancellationToken cancellationToken = default) =>
             await SingleOrDefaultAsync(
                 reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"), timeout,
                 cancellationToken);
 
-        public async Task<TResult> SingleOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
+        public async Task<TResult?> SingleOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
             int? timeout = null, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(SingleOrDefault(readerFunc), timeout,
                         cancellationToken: cancellationToken),
                 this._selector.ToString(),
-                parameters: this._selector.GetDvlSqlParameters()?.ToArray());
+                parameters: this._selector.GetDvlSqlParameters().ToArray());
 
         public override string ToString() => this._selector.ToString();
 

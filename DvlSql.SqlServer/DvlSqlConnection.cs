@@ -37,7 +37,7 @@ namespace DvlSql.SqlServer
                 await this._connection.OpenAsync();
             using var command =
                 this._commandFactory.CreateSqlCommand(commandType, this._connection, sqlString, this._transaction, 
-                parameters?.ToSqlParameters().ToArray());
+                parameters.ToSqlParameters().ToArray());
             try
             {
                 return await func(command);

@@ -13,7 +13,7 @@ namespace DvlSql.SqlServer
     {
         private readonly IDvlSqlConnection _dvlSqlConnection = dvlSqlConnection;
         private readonly DvlSqlUpdateExpression _updateExpression = updateExpression;
-        private IInsertDeleteExecutable<int> _updateExecutable;
+        private IInsertDeleteExecutable<int>? _updateExecutable;
 
         public IUpdateable Set<TVal>(DvlSqlType<TVal> value)
         {

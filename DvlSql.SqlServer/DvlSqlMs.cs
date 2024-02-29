@@ -9,14 +9,15 @@ namespace DvlSql.SqlServer
 {
     public partial class DvlSqlMs : IDvlSql
     {
-        private IDvlSqlConnection _dvlSqlConnection;
-        private readonly string _connectionString;
+        private IDvlSqlConnection? _dvlSqlConnection;
+        private readonly string? _connectionString;
 
         public DvlSqlMs(string connectionString) => this._connectionString = connectionString;
 
         public DvlSqlMs(IDvlSqlConnection connection) => this._dvlSqlConnection = connection;
 
-        private IDvlSqlConnection GetConnection() => this._dvlSqlConnection ?? new DvlSqlConnection(_connectionString);
+        private IDvlSqlConnection GetConnection() => this._dvlSqlConnection ?? new DvlSqlConnection(_connectionString ?? 
+            throw new NullReferenceException($"{nameof(_connectionString)} can not be null"));
         
         public ISelector From(string tableName, bool withNoLock = false)
         {
@@ -69,14 +70,14 @@ namespace DvlSql.SqlServer
         {
             try
             {
-                await this._dvlSqlConnection.CommitAsync(token);
+                await this._dvlSqlConnection!.CommitAsync(token);
             }
             catch (Exception exc)
             {
                 var list = new List<Exception> {exc};
                 try
                 {
-                    await this._dvlSqlConnection.RollbackAsync(token);
+                    await this._dvlSqlConnection!.RollbackAsync(token);
                 }
                 catch (Exception exc2)
                 {
@@ -87,13 +88,13 @@ namespace DvlSql.SqlServer
             }
             finally
             {
-                await this._dvlSqlConnection.DisposeAsync();
+                await this._dvlSqlConnection!.DisposeAsync();
                 this._dvlSqlConnection = null;
             }
         }
 
         public async Task RollbackAsync(CancellationToken token = default) =>
-            await this._dvlSqlConnection.RollbackAsync(token);
+            await this._dvlSqlConnection!.RollbackAsync(token);
 
         public async Task<IDvlSqlConnection> BeginTransactionAsync(CancellationToken token = default)
         {

@@ -14,7 +14,7 @@ namespace DvlSql.SqlServer
         {
             var insertable = new SqlInsertable<T>(insert, GetConnection());
 
-            return insertable.Values(insert.ValuesExpression?.Values);
+            return insertable.Values(insert.ValuesExpression.Values);
         }
 
         public IInsertDeleteExecutable<TResult> InsertInto<T, TResult>(DvlSqlInsertIntoExpression<T> insert, 
@@ -23,7 +23,7 @@ namespace DvlSql.SqlServer
         {
             insert.OutputExpression = OutputExp(outputCols);
             var insertOutputable = new InsertOutputable<T, TResult>(insert, GetConnection(), reader);
-            return insertOutputable.Values(insert.ValuesExpression?.Values);
+            return insertOutputable.Values(insert.ValuesExpression.Values);
         }
 
         public IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)

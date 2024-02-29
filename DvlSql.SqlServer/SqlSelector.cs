@@ -9,7 +9,7 @@ namespace DvlSql.SqlServer
     internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
-        private readonly DvlSqlUnionExpression _unionExpression = new DvlSqlUnionExpression();
+        private readonly DvlSqlUnionExpression _unionExpression = [];
         
         private DvlSqlFullSelectExpression CurrFullSelectExpression => this._unionExpression.Last().Expression;
 
