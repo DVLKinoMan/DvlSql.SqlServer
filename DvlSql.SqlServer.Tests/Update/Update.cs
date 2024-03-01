@@ -12,8 +12,8 @@ namespace DvlSql.SqlServer.Update
     [TestFixture]
     public class Update
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        private readonly DvlSqlMs _sql =
+            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
         
         [Test]
         public void TestMethod1()
@@ -25,7 +25,7 @@ namespace DvlSql.SqlServer.Update
             string expectedUpdate = Regex.Escape(
                 $"UPDATE dbo.Words{Environment.NewLine}SET money = @money");
 
-            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate!), Is.EqualTo(expectedUpdate));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace DvlSql.SqlServer.Update
                               "WHERE Amount = @amount",
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate!), Is.EqualTo(expectedUpdate));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace DvlSql.SqlServer.Update
                               "WHERE Amount = @amount", 
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate!), Is.EqualTo(expectedUpdate));
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace DvlSql.SqlServer.Update
             string folderPath = "some/path";
             string exactValue = $"\'{folderPath}\' + {ConvertExp("nvarchar(260)", "Id")}";
 
-            var someIds = new Guid[] {new Guid(), new Guid(), new Guid()};
+            var someIds = new Guid[] {new(), new(), new()};
             var actualUpdate = this._sql.Update("dbo.Words")
                 .Set(NVarCharWithExactValue("RelativePath", exactValue,260))
                 .Where(InExp("Id", someIds.Select(id=>ConstantExp(id)).ToArray()))
@@ -87,7 +87,7 @@ namespace DvlSql.SqlServer.Update
                               "WHERE Id IN ( '" + string.Join("', '", someIds) + "' )",
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate!), Is.EqualTo(expectedUpdate));
         }
     }
 }

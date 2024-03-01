@@ -14,10 +14,10 @@ namespace DvlSql.SqlServer.Insert
     [TestFixture]
     public class InsertIntoWithSelect
     {
-         private readonly IDvlSql _sql =
-            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+         private readonly DvlSqlMs _sql =
+            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
-        private static IEnumerable<string> Columns(params string[] cols) => cols;
+        private static string[] Columns(params string[] cols) => cols;
         
         [Test]
         public void TestMethod1()
@@ -39,7 +39,7 @@ namespace DvlSql.SqlServer.Insert
             string expectedInsert = Regex.Escape(
                 $"INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words{Environment.NewLine}ORDER BY Text ASC");
 
-            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert!), Is.EqualTo(expectedInsert));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace DvlSql.SqlServer.Insert
             string expectedInsert = Regex.Escape(
                 $"INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words WHERE Amount = @amount{Environment.NewLine}ORDER BY Text ASC");
 
-            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert!), Is.EqualTo(expectedInsert));
         }
     }
 }

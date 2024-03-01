@@ -10,11 +10,11 @@ namespace DvlSql.SqlServer.Select
     public class Select
     {
         
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         public void SelectAll()
@@ -25,7 +25,7 @@ namespace DvlSql.SqlServer.Select
 
             var expectedSelect = Regex.Escape($"SELECT * FROM {TableName}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -46,7 +46,7 @@ namespace DvlSql.SqlServer.Select
             Console.WriteLine(actualSelect);
             var expectedSelect = Regex.Escape($"SELECT {(fields == null || fields.Length == 0 ? "*" : string.Join(", ", fields))} FROM {TableName}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace DvlSql.SqlServer.Select
 
             var expectedSelect = Regex.Escape($"SELECT TOP {topNum} {(fields.Length == 0? $"*" : string.Join(", ", fields))} FROM {TableName}");
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
     }
 }

@@ -9,11 +9,11 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class Join
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         [TestCase("dbo.Sentences", "SentenceId", "Sentences.Id")]
@@ -35,8 +35,8 @@ namespace DvlSql.SqlServer.Select
             Assert.Multiple(
                 () =>
                 {
-                    Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                    Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
                 }
             );
         }
@@ -60,8 +60,8 @@ namespace DvlSql.SqlServer.Select
 
             Assert.Multiple(() =>
             {
-                Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
             });
         }
 
@@ -84,8 +84,8 @@ namespace DvlSql.SqlServer.Select
 
             Assert.Multiple(() =>
             {
-                Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
             });
         } 
         
@@ -109,8 +109,8 @@ namespace DvlSql.SqlServer.Select
 
             Assert.Multiple(() =>
             {
-                Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
             });
         }
     }

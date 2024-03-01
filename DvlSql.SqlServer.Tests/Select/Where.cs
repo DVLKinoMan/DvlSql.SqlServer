@@ -10,11 +10,11 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class Where
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         [TestCase("Chars", 1)]
@@ -30,7 +30,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {colName} = {value}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -47,7 +47,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {colName} = '{value}'"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -64,7 +64,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {colName} = {value}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -78,10 +78,10 @@ namespace DvlSql.SqlServer.Select
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" + 
-                $"WHERE CreatedTime = {dateTime.ToString()}"
+                $"WHERE CreatedTime = {dateTime}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -99,7 +99,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {colName} > {value}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -116,7 +116,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {fieldName} IS NULL"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -140,8 +140,8 @@ namespace DvlSql.SqlServer.Select
             Assert.Multiple(
                 () =>
                 {
-                    Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                    Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
                 });
         }
         
@@ -159,7 +159,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {fieldName} LIKE '{pattern}'"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -184,8 +184,8 @@ namespace DvlSql.SqlServer.Select
             Assert.Multiple(
                 () =>
                 {
-                    Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                    Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                    Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
                 });
         }
         
@@ -203,7 +203,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col} IN ( 1, 2, 3 )"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -220,7 +220,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col} IN ( SELECT {col} FROM {tableName} )"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -235,7 +235,7 @@ namespace DvlSql.SqlServer.Select
                 $"SELECT * FROM {TableName}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -250,7 +250,7 @@ namespace DvlSql.SqlServer.Select
                 $"SELECT * FROM {TableName}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE ( {col1} = {GetDefaultSqlString(number)} AND {col2} = {secondNumber} )"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -289,7 +289,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE ( {col1} = {GetDefaultSqlString(number)} OR {col2} = 3 )"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -307,7 +307,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} <> {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -325,7 +325,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} >= {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -343,7 +343,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} <= {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -361,7 +361,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} > {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -379,7 +379,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} < {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -397,7 +397,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} <= {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -415,7 +415,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} >= {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -433,7 +433,7 @@ namespace DvlSql.SqlServer.Select
                 $"WHERE {col1} = {GetDefaultSqlString(number)}"
             );
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -449,7 +449,7 @@ namespace DvlSql.SqlServer.Select
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
                 $"WHERE EXISTS( SELECT * FROM {tableName} )");
             
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
     }

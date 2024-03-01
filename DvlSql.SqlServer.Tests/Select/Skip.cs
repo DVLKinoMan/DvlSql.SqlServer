@@ -9,11 +9,11 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class Skip
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         [TestCase(3, null)]
@@ -33,7 +33,7 @@ namespace DvlSql.SqlServer.Select
                     ? $" FETCH NEXT {fetchNext} ROWS ONLY"
                     : ""));
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
     }
 }

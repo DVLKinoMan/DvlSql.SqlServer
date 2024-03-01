@@ -14,8 +14,8 @@ namespace DvlSql.SqlServer.Transaction
     [TestFixture]
     class Transactions
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        private readonly DvlSqlMs _sql =
+            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         //todo normal test
         [Test]
@@ -24,13 +24,11 @@ namespace DvlSql.SqlServer.Transaction
             var conn = await this._sql.BeginTransactionAsync();
             await this._sql.SetConnection(conn).DeleteFrom("dbo.Words")
                 .ExecuteAsync();
-
-            var k = await this._sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
+            _ = await this._sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
                     IntType("Id"), NVarCharType("Name", 50))
                 .Values((1, "Some New Word"), (2, "Some New Word 2"))
                 .ExecuteAsync();
-
-            var d = await this._sql.SetConnection(conn).Update("dbo.Words")
+            _ = await this._sql.SetConnection(conn).Update("dbo.Words")
                 .Set(NVarChar("Name", "Updated Word", 50))
                 .Where(ConstantExpCol("Id") == 1)
                 .ExecuteAsync();
@@ -52,7 +50,7 @@ namespace DvlSql.SqlServer.Transaction
 
             var k = await this._sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
                     IntType("Id"), NVarCharType("Name", 50))
-                .Output(AsList (r=>int.Parse(r["id"].ToString())),"inserted.id")
+                .Output(AsList (r=>int.Parse(r["id"].ToString()!)),"inserted.id")
                 .Values((1, "Some New Word"), (2, "Some New Word 2"))
                 .ExecuteAsync();
 

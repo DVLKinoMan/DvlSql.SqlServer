@@ -12,7 +12,7 @@ namespace DvlSql.SqlServer.Result
     [TestFixture]
     public class SingleOrDefault
     {
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         #region Parameters
 
@@ -24,67 +24,59 @@ namespace DvlSql.SqlServer.Result
                     (Func<IDataReader, int>) (r => (int) r[0] + 1),
                     new List<int>() {1}, 2
                 },
-                new object[]
-                {
-                    (Func<IDataReader, string>) (r => ((string) r[0]).Substring(0, 1)),
+                [
+                    (Func<IDataReader, string>) (r => ((string) r[0])[..1]),
                     new List<string>() {"David"}, "D"
-                },
-                new object[]
-                {
-                    (Func<IDataReader, string>) (r => ((string) r[0]).Substring(0, 1)),
-                    new List<string>() {"David", "Lasha"}, default(string)
-                },
-                new object[]
-                {
+                ],
+                [
+                    (Func<IDataReader, string>) (r => ((string) r[0])[..1]),
+                    new List<string>() {"David", "Lasha"}, ""
+                ],
+                [
                     (Func<IDataReader, SomeClass>) (r =>
                     {
                         var someClass = (SomeClass) r[0];
                         return new SomeClass(someClass.SomeIntField + 1,
-                            someClass.SomeStringField.Substring(0, 1));
+                            someClass.SomeStringField[..1]);
                     }),
                     new List<SomeClass>()
-                        {new SomeClass(1, "David")},
+                        {new(1, "David")},
                     new SomeClass(2, "D")
-                },
-                new object[]
-                {
+                ],
+                [
                     (Func<IDataReader, SomeClass>) (r =>
                     {
                         var someClass = (SomeClass) r[0];
                         return new SomeClass(someClass.SomeIntField + 1,
-                            someClass.SomeStringField.Substring(0, 1));
+                            someClass.SomeStringField[..1]);
                     }),
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasga")},
+                        {new(1, "David"), new(2, "Lasga")},
                     default(SomeClass)
-                }
+                ]
             };
 
         private static readonly object[] ParametersWithoutFunc =
             new[]
             {
-                new object[]
-                {
+                [
                     new List<int>() {1}, 1
-                },
-                new object[]
-                {
+                ],
+                [
                     new List<string>() {"David"}, "David"
-                },
-                new object[]
-                {
+                ],
+                [
                     new List<string>() {"David", "Lasha"}, default(string)
-                },
-                new object[]
-                {
+                ],
+                [
                     new List<SomeClass>()
-                        {new SomeClass(1, "David")},
+                        {new(1, "David")},
                     new SomeClass(1, "David")
-                },
+                ],
                 new object[]
                 {
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha")},
+                        {new(1, "David"), new(2, "Lasha")},
                     default(SomeClass)
                 }
             };

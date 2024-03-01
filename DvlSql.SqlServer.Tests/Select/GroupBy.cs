@@ -11,11 +11,11 @@ namespace DvlSql.SqlServer.Select
     public class 
         GroupBy
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         [TestCase("Id", "name")]
@@ -32,7 +32,7 @@ namespace DvlSql.SqlServer.Select
 
             Console.WriteLine($"Actual: {actualSelect}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -52,7 +52,7 @@ namespace DvlSql.SqlServer.Select
 
             Console.WriteLine($"Actual: {actualSelect}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
         
         [Test]
@@ -72,7 +72,7 @@ namespace DvlSql.SqlServer.Select
 
             Console.WriteLine($"Actual: {actualSelect}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
     }
 }

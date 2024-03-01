@@ -9,6 +9,8 @@ namespace DvlSql.SqlServer.TestConsole
     {
         static void Main(string[] args)
         {
+            ArgumentNullException.ThrowIfNull(args);
+
             string connectionString =
                   "Data Source = DESKTOP-D5ADL3B\\MSSQLSERVER01; Initial Catalog = CasbinTest; integrated security = true";
 

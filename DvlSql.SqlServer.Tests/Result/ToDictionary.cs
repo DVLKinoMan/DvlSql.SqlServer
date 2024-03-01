@@ -11,15 +11,14 @@ namespace DvlSql.SqlServer.Result
     [TestFixture]
     public class ToDictionary
     {
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         #region Parameters
 
         private static readonly object[] ParametersWithFunc =
             new[]
             {
-                new object[]
-                {
+                [
                     (Func<IDataReader, int>) (r => (int) r[0]),
                     (Func<IDataReader, int>) (r => (int) r[0] + 1),
                     new List<int>() {1, 1, 2, 2, 3},
@@ -29,10 +28,9 @@ namespace DvlSql.SqlServer.Result
                         {2, new List<int> {3, 3}},
                         {3, new List<int> {4}}
                     }
-                },
-                new object[]
-                {
-                    (Func<IDataReader, string>) (r => ((string) r[0]).Substring(0, 1)),
+                ],
+                [
+                    (Func<IDataReader, string>) (r => ((string) r[0])[..1]),
                     (Func<IDataReader, int>) (r => ((string) r[0]).Length),
                     new List<string>() {"david", "box", "david", "baby", "boy", "barbi", "cable"},
                     new Dictionary<string, List<int>>()
@@ -41,9 +39,8 @@ namespace DvlSql.SqlServer.Result
                         {"b", new List<int>() {3, 4, 3, 5}},
                         {"c", new List<int>() {5}},
                     },
-                },
-                new object[]
-                {
+                ],
+                [
                     (Func<IDataReader, int>) (r => ((string) r[0]).Length),
                     (Func<IDataReader, string>) (r => "Name: " + (string) r[0]),
                     new List<string>() {"david", "box", "david", "baby", "boy", "barbi", "cable"},
@@ -53,7 +50,7 @@ namespace DvlSql.SqlServer.Result
                         {3, new List<string>() {"Name: box", "Name: boy"}},
                         {4, new List<string>() {"Name: baby"}},
                     },
-                },
+                ],
                 new object[]
                 {
                     (Func<IDataReader, int>) (r =>
@@ -66,14 +63,14 @@ namespace DvlSql.SqlServer.Result
                     {
                         var someClass = (SomeClass) r[0];
                         return new SomeClass(someClass.SomeIntField,
-                            someClass.SomeStringField.Substring(0, 1));
+                            someClass.SomeStringField[..1]);
                     }),
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(-1, "SomeGuy")},
+                        {new(1, "David"), new(2, "Lasha"), new(-1, "SomeGuy")},
                     new Dictionary<int, List<SomeClass>>()
                     {
-                        {6, new List<SomeClass> {new SomeClass(1, "D"), new SomeClass(-1, "S")}},
-                        {7, new List<SomeClass> {new SomeClass(2, "L")}}
+                        {6, new List<SomeClass> {new(1, "D"), new(-1, "S")}},
+                        {7, new List<SomeClass> {new(2, "L")}}
                     }
                 }
             };

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Text.RegularExpressions;
 using static DvlSql.Extensions.ExpressionHelpers;
 
@@ -7,8 +8,8 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class From
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
         [Test]
@@ -18,7 +19,7 @@ namespace DvlSql.SqlServer.Select
             var from = this._sql.From(tableName).ToString();
 
             var expectedSelect = Regex.Escape($"SELECT * FROM {tableName}");
-            Assert.That(Regex.Escape(from), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(from!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -36,8 +37,8 @@ namespace DvlSql.SqlServer.Select
             var expectedSelect = Regex.Escape($"SELECT * FROM {tableName}");
             Assert.Multiple(() =>
             {
-                Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
-                Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect));
+                Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect));
             });
         }
 
@@ -50,13 +51,15 @@ namespace DvlSql.SqlServer.Select
                 .ToString();
 
             var expectedSelect = Regex.Escape($"SELECT * FROM {tableName} WITH(NOLOCK)");
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
         [TestCase("dbo.Words")]
         public void WithInnerSelect(string tableName)
         {
+            ArgumentNullException.ThrowIfNull(tableName);
+
             var asName = "W";
             var fullSelect = FullSelectExp(SelectExp(), FromExp("dbo.Words"), @as: AsExp(asName));
             var actualSelect = this._sql.From(fullSelect)
@@ -64,7 +67,7 @@ namespace DvlSql.SqlServer.Select
                 .ToString();
 
             var expectedSelect = Regex.Escape($"SELECT * FROM (SELECT * FROM dbo.Words) AS {asName}");
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
     }
 }

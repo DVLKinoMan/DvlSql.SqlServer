@@ -21,7 +21,7 @@ namespace DvlSql.SqlServer.Result
                 .Returns(() => index < list.Count);
 
             readerMoq.Setup(reader => reader[0])
-                .Returns(() => list[index]);
+                .Returns(() => list[index]!);
 
             return readerMoq;
         }

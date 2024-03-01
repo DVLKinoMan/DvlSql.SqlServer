@@ -13,12 +13,12 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class ComplexSelects
     {
-        private readonly IDvlSql _sql1 =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql1 =
+            new (
                 "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi");
 
-        private readonly IDvlSql _sql2 =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql2 =
+            new (
                 @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         [Test]
@@ -49,7 +49,7 @@ namespace DvlSql.SqlServer.Select
                               "ORDER BY [CountExp] DESC, AMOUNT DESC",
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(select), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(select!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace DvlSql.SqlServer.Select
                 .Where(IsNullExp("Date"))
                 .SelectTop(1)
                 .OrderByDescending("Amount")
-                .ToString();
+                .ToString()!;
 
             string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 * FROM dbo.Words{0}" +
                                                                "WHERE Date IS NULL{0}" +
@@ -78,7 +78,7 @@ namespace DvlSql.SqlServer.Select
                 .Where(IsNullExp("Date"))
                 .SelectTop(1, "Amount")
                 .OrderByDescending("Amount")
-                .ToString();
+                .ToString()!;
 
             string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 Amount FROM dbo.Words{0}" +
                                                                "WHERE Date IS NULL{0}" +
@@ -103,7 +103,7 @@ namespace DvlSql.SqlServer.Select
                                                                "ORDER BY Amount DESC",
                 Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -143,27 +143,27 @@ namespace DvlSql.SqlServer.Select
             Assert.Multiple(
                 () =>
                 {
-                    Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect1));
-                    Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect2));
+                    Assert.That(Regex.Escape(actualSelect1!), Is.EqualTo(expectedSelect1));
+                    Assert.That(Regex.Escape(actualSelect2!), Is.EqualTo(expectedSelect2));
                 });
         }
 
-        private static object[][] _paramsForMethod = new[]
-        {
-            new object[] {true, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11},
-            new object[] {false, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11}
-        };
+        private static readonly object[][] _paramsForMethod =
+        [
+            [true, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11],
+            [false, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11]
+        ];
 
         [Test]
         [TestCaseSource(nameof(_paramsForMethod))]
         public void TestMethod6(bool onlyOwn, DateTime? startDateTime, DateTime? endDateTime, int userId)
         {
-            var select = _sql1.From($"dbo.DocumentsArc X")
+            _ = _sql1.From($"dbo.DocumentsArc X")
                 .Where((IsNullExp("@startDate") | ConstantExpCol("X.CreatedAt") >= "@startDate") &
                        (IsNullExp("@endDate") | ConstantExpCol("X.CreatedAt") <= "@endDate") &
                        (onlyOwn
-                           ? (DvlSqlBinaryExpression) (ConstantExpCol("X.WorkerUserId") == "@userId")
-                           : ExistsExp(FullSelectExp(SelectExp(),FromExp($"dbo.UserDocumentTypes UDT"),
+                           ? (DvlSqlBinaryExpression)(ConstantExpCol("X.WorkerUserId") == "@userId")
+                           : ExistsExp(FullSelectExp(SelectExp(), FromExp($"dbo.UserDocumentTypes UDT"),
                                  where: WhereExp(
                                      ConstantExpCol("UDT.Id") == "X.Type" & ConstantExpCol("UDT.UserId") == "@userId")))
                              | ConstantExpCol("X.WorkerUserId") == "@userId"

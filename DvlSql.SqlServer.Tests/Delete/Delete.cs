@@ -10,8 +10,8 @@ namespace DvlSql.SqlServer.Delete
     [TestFixture]
     public class Delete
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        private readonly DvlSqlMs _sql =
+            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         [Test]
         public void TestMethod1()
@@ -27,7 +27,7 @@ namespace DvlSql.SqlServer.Delete
                 $"DELETE FROM dbo.Words{Environment.NewLine}" +
                 $"WHERE Text = @text");
 
-            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete!), Is.EqualTo(expectedDelete));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace DvlSql.SqlServer.Delete
             string expectedDelete = Regex.Escape(
                 @"DELETE FROM dbo.Words");
 
-            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete!), Is.EqualTo(expectedDelete));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace DvlSql.SqlServer.Delete
             string expectedDelete = Regex.Escape(
                 $@"DELETE FROM dbo.Words{Environment.NewLine}OUTPUT deleted.Id{Environment.NewLine}WHERE Id = 2");
 
-            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete!), Is.EqualTo(expectedDelete));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace DvlSql.SqlServer.Delete
             string expectedDelete = Regex.Escape(
                 $@"DELETE w FROM Words AS w{Environment.NewLine}INNER JOIN Words ON w.Id = Words.Id{Environment.NewLine}WHERE Id = 2");
 
-            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete!), Is.EqualTo(expectedDelete));
         }
     }
 }

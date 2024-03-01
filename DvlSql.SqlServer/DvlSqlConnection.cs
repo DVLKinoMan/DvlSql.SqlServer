@@ -31,13 +31,13 @@ namespace DvlSql.SqlServer
         }
 
         public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
-            CommandType commandType = CommandType.Text, params DvlSqlParameter[] parameters)
+            CommandType commandType = CommandType.Text, params DvlSqlParameter[]? parameters)
         {
             if (this._transaction == null)
                 await this._connection.OpenAsync();
             using var command =
                 this._commandFactory.CreateSqlCommand(commandType, this._connection, sqlString, this._transaction, 
-                parameters.ToSqlParameters().ToArray());
+                parameters!.ToSqlParameters().ToArray());
             try
             {
                 return await func(command);

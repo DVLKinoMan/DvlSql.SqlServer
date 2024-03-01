@@ -8,8 +8,8 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class Union
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
         [Test]
@@ -32,7 +32,7 @@ namespace DvlSql.SqlServer.Select
                 table1,
                 table2));
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace DvlSql.SqlServer.Select
                 table1,
                 table2));
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
 
@@ -74,18 +74,15 @@ namespace DvlSql.SqlServer.Select
             var firstUnionAll = select.UnionAll()
                 .From(table2)
                 .Select();
-
-            var actualSelect1 = firstUnion.UnionAll()
+            _ = firstUnion.UnionAll()
                 .From(table1)
                 .Select()
                 .ToString();
-
-            var actualSelect2 = firstUnionAll.Union()
+            _ = firstUnionAll.Union()
                 .From(table1)
                 .Select()
                 .ToString();
-
-            string expectedSelect1 = Regex.Escape(string.Format(
+            _ = Regex.Escape(string.Format(
                 "SELECT * FROM {1}{0}" +
                 "UNION{0}" +
                 "SELECT * FROM {2}{0}" +
@@ -94,8 +91,7 @@ namespace DvlSql.SqlServer.Select
                 Environment.NewLine,
                 table1,
                 table2));
-            
-            string expectedSelect2 = Regex.Escape(string.Format(
+            _ = Regex.Escape(string.Format(
                 "SELECT * FROM {1}{0}" +
                 "UNION ALL{0}" +
                 "SELECT * FROM {2}{0}" +

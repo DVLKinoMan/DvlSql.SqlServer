@@ -11,10 +11,10 @@ namespace DvlSql.SqlServer.Insert
     [TestFixture]
     public class InsertIntoValues
     {
-         private readonly IDvlSql _sql =
-            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+         private readonly DvlSqlMs _sql =
+            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
-        private static IEnumerable<string> Columns(params string[] cols) => cols;
+        //private static IEnumerable<string> Columns(params string[] cols) => cols;
 
         [Test]
         public void InsertIntoWith3Columns()
@@ -39,7 +39,7 @@ namespace DvlSql.SqlServer.Insert
                               "( @Amount3, @Text3 )", 
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert!), Is.EqualTo(expectedInsert));
         }
         
         [Test]
@@ -65,7 +65,7 @@ namespace DvlSql.SqlServer.Insert
                     "( @userId1, @firstName1, @lastName1, @mobileNumber1, @status1, @deviceId1 )",
                     Environment.NewLine));
 
-            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert!), Is.EqualTo(expectedInsert));
         }
     }
 }

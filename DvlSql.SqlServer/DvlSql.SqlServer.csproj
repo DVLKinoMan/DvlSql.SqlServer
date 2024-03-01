@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql.Extensions" Version="3.0.3" />
+    <PackageReference Include="DvlSql.Extensions" Version="3.1.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="SystemNET.Exts" Version="1.1.0" />
+    <PackageReference Include="SystemNET.Exts" Version="3.1.0" />
   </ItemGroup>
 
 </Project>

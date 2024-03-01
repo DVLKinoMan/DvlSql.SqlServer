@@ -9,11 +9,11 @@ namespace DvlSql.SqlServer.Select
     [TestFixture]
     public class OrderBy
     {
-        private readonly IDvlSql _sql =
-            new DvlSqlMs(
+        private readonly DvlSqlMs _sql =
+            new (
                 StaticConnectionStrings.ConnectionStringForTest);
 
-        private string TableName = "dbo.Words";
+        private readonly string TableName = "dbo.Words";
 
         [Test]
         [TestCase("Id", "Name", "Date")]
@@ -30,7 +30,7 @@ namespace DvlSql.SqlServer.Select
             var expectedSelect = Regex.Escape($"SELECT * FROM {TableName}{Environment.NewLine}" +
                                               $"ORDER BY {string.Join(" ASC, ", fields) + " ASC"}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect!));
         }
 
         [Test]
@@ -48,25 +48,23 @@ namespace DvlSql.SqlServer.Select
             var expectedSelect = Regex.Escape($"SELECT * FROM {TableName}{Environment.NewLine}" +
                                               $"ORDER BY {string.Join(" DESC, ", fields) + " DESC"}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
 
-        private static readonly (string, bool)[][] FieldsForAscendingAndDescending = new[]
-        {
-            new (string, bool)[]
-            {
+        private static readonly (string, bool)[][] FieldsForAscendingAndDescending =
+        [
+            [
                 ("Id", true),
                 ("Name", false)
-            },
-            new (string, bool)[]
-            {
+            ],
+            [
                 ("Id", true),
                 ("Name", false),
                 ("LastName", false),
                 ("Date", true),
                 ("Time", false),
-            },
-        };
+            ],
+        ];
 
         [Test]
         [TestCaseSource(nameof(FieldsForAscendingAndDescending))]
@@ -91,9 +89,9 @@ namespace DvlSql.SqlServer.Select
                 builder.Remove(builder.Length - 2, 2);
 
             var expectedSelect = Regex.Escape($"SELECT * FROM {TableName}{Environment.NewLine}" +
-                                              $"ORDER BY {builder.ToString()}");
+                                              $"ORDER BY {builder}");
 
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+            Assert.That(Regex.Escape(actualSelect!), Is.EqualTo(expectedSelect));
         }
     }
 }
