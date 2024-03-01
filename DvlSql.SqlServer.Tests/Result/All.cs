@@ -29,7 +29,7 @@ namespace DvlSql.SqlServer.Result
                 new object[]
                 {
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")},
+                        {new(1, "David"), new(2, "Lasha"), new(3, "SomeGuy")},
                     true
                 },
                 new object[]
@@ -46,13 +46,13 @@ namespace DvlSql.SqlServer.Result
                 new object[]
                 {
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")},
+                        {new(1, "David"), new (2, "Lasha"), new (3, "SomeGuy")},
                     false
                 },
                 new object[]
                 {
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(-2, "Lasha"), new SomeClass(3, "Tamta")},
+                        {new (1, "David"), new (-2, "Lasha"), new (3, "Tamta")},
                     false
                 }
             };

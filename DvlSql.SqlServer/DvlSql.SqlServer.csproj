@@ -3,20 +3,34 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.0.3</Version>
+    <Version>3.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>David Dvali</Company>
     <Authors>David Dvali</Authors>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</RepositoryUrl>
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
-    <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+    <Description>DSL for Working with MS SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    <PackageReleaseNotes>Upgrade to .NET 8.0</PackageReleaseNotes>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DvlSql.Extensions" Version="3.1.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="SystemNET.Exts" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="license.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

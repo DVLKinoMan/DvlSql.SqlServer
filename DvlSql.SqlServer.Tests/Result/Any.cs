@@ -21,20 +21,17 @@ namespace DvlSql.SqlServer.Result
         private static readonly object[] ParametersWithoutWhere =
             new[]
             {
-                new object[]
-                {
+                [
                     new List<int>() {1, 2, 3}, true
-                },
-                new object[]
-                {
+                ],
+                [
                     new List<string>(), false
-                },
-                new object[]
-                {
+                ],
+                [
                     new List<SomeClass>()
-                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")},
+                        {new (1, "David"), new (2, "Lasha"), new (3, "SomeGuy")},
                     true
-                },
+                ],
                 new object[]
                 {
                     new List<SomeClass>()
@@ -46,12 +43,11 @@ namespace DvlSql.SqlServer.Result
         private static readonly object[] ParametersWithWhereFor5Letters =
             new[]
             {
-                new object[]
-                {
+                [
                     new List<SomeClass>()
                         {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")},
                     true
-                },
+                ],
                 new object[]
                 {
                     new List<SomeClass>()
