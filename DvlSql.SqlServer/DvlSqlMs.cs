@@ -103,6 +103,6 @@ namespace DvlSql.SqlServer
             return conn;
         }
 
-        public DvlSqlTableDeclarationExpression DeclareTable(string name) => new DvlSqlTableDeclarationExpression(name);
+        public DvlSqlTableDeclarationExpression DeclareTable(string name) => new(name);
     }
 }

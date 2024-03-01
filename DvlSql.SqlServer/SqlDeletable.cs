@@ -84,20 +84,13 @@ namespace DvlSql.SqlServer
         }
     }
 
-    internal class RemoveOutputable<TResult> : IDeleteOutputable<TResult>
+    internal class RemoveOutputable<TResult>(DvlSqlDeleteExpression deleteExpression, IDvlSqlConnection dvlSqlConnection,
+        Func<IDvlSqlCommand, int?, CancellationToken?,
+                Task<TResult>> executeQuery) : IDeleteOutputable<TResult>
     {
-        protected readonly DvlSqlDeleteExpression DeleteExpression;
-        protected readonly IDvlSqlConnection DvlSqlConnection;
-        private readonly Func<IDvlSqlCommand, int?, CancellationToken?, Task<TResult>> _executeQuery;
-
-        public RemoveOutputable(DvlSqlDeleteExpression deleteExpression, IDvlSqlConnection dvlSqlConnection,
-            Func<IDvlSqlCommand, int?, CancellationToken?, 
-                Task<TResult>> executeQuery)
-        {
-            DeleteExpression = deleteExpression;
-            DvlSqlConnection = dvlSqlConnection;
-            _executeQuery = executeQuery;
-        }
+        protected readonly DvlSqlDeleteExpression DeleteExpression = deleteExpression;
+        protected readonly IDvlSqlConnection DvlSqlConnection = dvlSqlConnection;
+        private readonly Func<IDvlSqlCommand, int?, CancellationToken?, Task<TResult>> _executeQuery = executeQuery;
 
         protected IInsertDeleteExecutable<TResult> GetInsertDeleteExecutable() =>
             new SqlInsertDeleteExecutable<TResult>(this.DvlSqlConnection, ToString,

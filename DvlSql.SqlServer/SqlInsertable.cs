@@ -49,7 +49,7 @@ namespace DvlSql.SqlServer
             return builder.ToString();
         }
 
-        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertIntoExpression?.Parameters;
+        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertIntoExpression.Parameters;
     }
 
     internal class BaseOutputable<TParam, TResult>(DvlSqlInsertExpression insertIntoExpression, IDvlSqlConnection conn,
@@ -675,13 +675,13 @@ namespace DvlSql.SqlServer
             params DvlSqlParameter[] @params)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
-            this._insertWithSelectExpression.Parameters = @params.ToList();
+            this._insertWithSelectExpression.Parameters = [.. @params];
 
             return new SqlInsertDeleteExecutable<int>(this._dvlSqlConnection, ToString, GetDvlSqlParameters,
                 (command, timeout, token) => command.ExecuteNonQueryAsync(timeout, token ?? default));
         }
 
-        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._insertWithSelectExpression.Parameters;
+        private List<DvlSqlParameter> GetDvlSqlParameters() => this._insertWithSelectExpression.Parameters;
 
         public override string ToString()
         {

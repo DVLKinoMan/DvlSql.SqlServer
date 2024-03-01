@@ -24,7 +24,7 @@ namespace DvlSql.SqlServer
                 param.Value = DBNull.Value;
             else if (parameter.DvlSqlType.GetType().GetGenericTypeDefinition() == typeof(DvlSqlType<>))
             {
-                var prop = parameter.DvlSqlType.GetType().GetProperty("Value");
+                var prop = parameter.DvlSqlType.GetType().GetProperty("Value") ?? throw new MissingMemberException("Value");
                 param.Value = prop.GetValue(parameter.DvlSqlType) ?? DBNull.Value;
             }
 

@@ -58,7 +58,7 @@ namespace DvlSql.SqlServer
         public async Task CommitAsync(CancellationToken token = default)
         {
             if (this._transaction == null)
-                throw new ArgumentNullException(nameof(_transaction));
+                throw new InvalidOperationException($"{nameof(_transaction)} is null");
          
             await this._transaction.CommitAsync(token);
         }
@@ -66,7 +66,7 @@ namespace DvlSql.SqlServer
         public async Task RollbackAsync(CancellationToken token = default) 
         {
             if (this._transaction == null)
-                throw new ArgumentNullException(nameof(_transaction));
+                throw new InvalidOperationException($"{nameof(_transaction)} is null");
 
             await this._transaction.RollbackAsync(token);
         }

@@ -26,7 +26,7 @@ namespace DvlSql.SqlServer
                     if (expression is DvlSqlFullSelectExpression { } select)
                         Visit(select);
                     else expression.Accept(this);
-                    this._command.Append(")");
+                    this._command.Append(')');
                     expression.As?.Accept(this);
                     break;
             }
@@ -39,7 +39,7 @@ namespace DvlSql.SqlServer
             if (expression.Top != null)
                 this._command.Append($"TOP {expression.Top} ");
 
-            if (expression.ParameterNames == null || !expression.ParameterNames.Any())
+            if (expression.ParameterNames == null || expression.ParameterNames.Count == 0)
             {
                 this._command.Append("* ");
                 //goto end;
@@ -47,7 +47,7 @@ namespace DvlSql.SqlServer
             }
 
             this._command.Append(string.Join(", ", expression.ParameterNames.Where(p=>!string.IsNullOrEmpty(p))));
-            this._command.Append(" ");
+            this._command.Append(' ');
 
             //end:
             //expression.From.Accept(this);
@@ -144,7 +144,7 @@ namespace DvlSql.SqlServer
             foreach (var column in expression.Columns)
                 this._command.Append($"{column}, ");
 
-            if (expression.Columns.Any())
+            if (expression.Columns.Length != 0)
                 this._command.Remove(this._command.Length - 2, 2);
 
             this._command.Append(" ) ");
@@ -158,12 +158,13 @@ namespace DvlSql.SqlServer
         public void Visit(DvlSqlFullSelectExpression expression)
         {
             if (expression.Select == null)
-                throw new ArgumentNullException("SelectExpression", "expression has no Select Expression");
+                throw new ArgumentNullException(nameof(expression.Select), "expression has no Select Expression");
 
             expression.Select.Accept(this);
             expression.From.Accept(this);
-            foreach (var joinExpression in expression.Join)
-                joinExpression.Accept(this);
+            if (expression.Join != null)
+                foreach (var joinExpression in expression.Join)
+                    joinExpression.Accept(this);
             expression.Where?.Accept(this);
             expression.GroupBy?.Accept(this);
             expression.OrderBy?.Accept(this);
@@ -262,7 +263,7 @@ namespace DvlSql.SqlServer
                 this._command.Append(" ),");
             }
 
-            if (expression.Values.Any())
+            if (expression.Values.Length != 0)
                 this._command.Remove(this._command.Length - 1, 1);
             this._command.Append(hasAs ? ")" : "");
 

@@ -31,9 +31,9 @@ namespace DvlSql.SqlServer
 
         public void NotExpOnFullSelects()
         {
-            foreach (var union in _unionExpression)
-                if (union.Expression.Where is { } where)
-                    union.Expression.Where = !where;
+            foreach (var (Expression, _) in _unionExpression)
+                if (Expression.Where is { } where)
+                    Expression.Where = !where;
         }
 
         public ISelector From(string tableName, bool withNoLock = false)
@@ -57,7 +57,7 @@ namespace DvlSql.SqlServer
             return this;
         }
 
-        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.CurrFullSelectExpression?.Where?.Parameters;
+        public List<DvlSqlParameter>? GetDvlSqlParameters() => this.CurrFullSelectExpression.Where?.Parameters;
 
         public SqlSelector WithSelectTop(int num)
         {
@@ -203,18 +203,18 @@ namespace DvlSql.SqlServer
 
         public IFromable Union()
         {
-            var last = this._unionExpression.Last();
+            var (Expression, _) = this._unionExpression.Last();
             this._unionExpression.RemoveAt(this._unionExpression.Count - 1);
-            this._unionExpression.Add((last.Expression, UnionType.Union));
+            this._unionExpression.Add((Expression, UnionType.Union));
             
             return this;
         }
 
         public IFromable UnionAll()
         {
-            var last = this._unionExpression.Last();
+            var (Expression, _) = this._unionExpression.Last();
             this._unionExpression.RemoveAt(this._unionExpression.Count - 1);
-            this._unionExpression.Add((last.Expression, UnionType.UnionAll));
+            this._unionExpression.Add((Expression, UnionType.UnionAll));
             
             return this;
         }
