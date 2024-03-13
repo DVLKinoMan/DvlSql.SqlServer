@@ -7,7 +7,7 @@ namespace DvlSql.SqlServer
     internal class DvlSqlMsCommandFactory : IDvlSqlMsCommandFactory
     {
         public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction? transaction = null,
-            params SqlParameter[] parameters)
+            params SqlParameter[]? parameters)
         {
             var command = new SqlCommand(sqlString, connection)
             {
@@ -15,9 +15,9 @@ namespace DvlSql.SqlServer
             };
 
             if (transaction != null)
-                command.Transaction = (SqlTransaction) transaction;
+                command.Transaction = (SqlTransaction)transaction;
 
-            if(parameters!=null)
+            if (parameters != null)
                 foreach (var parameter in parameters)
                     command.Parameters.Add(parameter);
 
