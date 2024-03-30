@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static DvlSql.Extensions.DataReader;
+using static DvlSql.SqlServer.Exts;
 
 namespace DvlSql.SqlServer
 {
@@ -31,7 +31,7 @@ namespace DvlSql.SqlServer
         public async Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
-                dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(r => (TResult)r[0]), timeout, behavior, cancellationToken),
+                dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(RecordReaderFunc<TResult>()), timeout, behavior, cancellationToken),
                 this._selector.ToString(),
                 parameters: this._selector.GetDvlSqlParameters()?.ToArray());
 

@@ -12,16 +12,30 @@ namespace DvlSql.SqlServer.TestConsole
             ArgumentNullException.ThrowIfNull(args);
 
             string connectionString =
-                  "Data Source = DESKTOP-D5ADL3B\\MSSQLSERVER01; Initial Catalog = CasbinTest; integrated security = true";
+                  "Server=LAPTOP-DEUOP46M\\LOCALHOST; Database=IMDBDatabase; Integrated Security=True;MultipleActiveResultSets=True; Encrypt=False;";
 
             var dvl_sql = new DvlSqlMs(connectionString);
 
             //Select ids from table ordered by date
-            List<int> ids = dvl_sql.From("casbin_rule")
-                .Where(ConstantExpCol("id") == 1)
-                                    .Select("id", "v0", "v1")
-                                    .ToListAsync(r => (int)r["id"])
+            var films = dvl_sql.From("Films")
+                                    .Select("Name")
+                                    .ToListAsync<string>()
                                     .Result;
+        }
+
+        public class Film
+        {
+            public string ImdbpageUrl { get; set; }
+            public int? DurationInMinutes { get; set; }
+            public string Description { get; set; }
+            public string Name { get; set; }
+            public string TvDescription { get; set; }
+            public string ImdbTitle { get; set; }
+            public string AwardsInformationString { get; set; }
+            public decimal? Imdbrating { get; set; }
+            public int? ImdbuserRatingsCount { get; set; }
+            public DateTime? ReleaseDate { get; set; }
+            public string Tagline { get; set; }
         }
     }
 }
