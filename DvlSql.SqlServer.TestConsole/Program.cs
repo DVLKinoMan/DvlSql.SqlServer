@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DvlSql.Extensions;
 using static DvlSql.Extensions.ExpressionHelpers;
 
@@ -18,8 +19,8 @@ namespace DvlSql.SqlServer.TestConsole
 
             //Select ids from table ordered by date
             var films = dvl_sql.From("Films")
-                                    .Select("Name")
-                                    .ToListAsync<string>()
+                                    .Select()
+                                    .ToListAsync<Film>()
                                     .Result;
         }
 
