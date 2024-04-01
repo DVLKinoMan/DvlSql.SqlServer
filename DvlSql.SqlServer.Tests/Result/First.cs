@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using DvlSql.SqlServer;
 using DvlSql.SqlServer.Classes;
+using DvlSql.SqlServer.SqlTypes;
 using NUnit.Framework;
 
 using static DvlSql.SqlServer.Result.Helpers;
@@ -39,7 +40,7 @@ namespace DvlSql.SqlServer.Result
                     new SomeClass(2, "D")
                 }
             };
-       
+
         private static readonly object[] ParametersWithoutFunc =
             new[]
             {
@@ -64,7 +65,7 @@ namespace DvlSql.SqlServer.Result
                 [new List<string>()],
                 new object[] {new List<SomeClass>()}
             };
-        
+
         private static readonly object[] ParametersWithFuncThrowingException =
         [
             new object[]
@@ -79,12 +80,17 @@ namespace DvlSql.SqlServer.Result
             }
         ];
         #endregion
-        
+
         [Test]
         [TestCaseSource(nameof(ParametersWithoutFunc))]
         public void FirstWithoutFunc<T>(List<T> data, T expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Returns(() => prop.GetValue(data[0])!);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
@@ -96,12 +102,17 @@ namespace DvlSql.SqlServer.Result
 
             Assert.That(actual, Is.EqualTo(expected));
         }
-        
+
         [Test]
         [TestCaseSource(nameof(ParametersWithFunc))]
         public void FirstWithFunc<T>(Func<IDataReader, T> func, List<T> data, T expected)
         {
-            var readerMoq = CreateDataReaderMock(data);
+            var readerMoq = CreateDataReaderMock(data); 
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Returns(() => prop.GetValue(data[0])!);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
@@ -113,7 +124,7 @@ namespace DvlSql.SqlServer.Result
 
             Assert.That(actual, Is.EqualTo(expected));
         }
-        
+
         [Test]
         [TestCaseSource(nameof(ParametersWithoutFuncThrowingException))]
         public void FirstWithThrowingException<T>(List<T> data)
@@ -131,7 +142,7 @@ namespace DvlSql.SqlServer.Result
                     .Result;
             });
         }
-        
+
         [Test]
         [TestCaseSource(nameof(ParametersWithFuncThrowingException))]
         public void FirstWithFuncThrowingExceptions<T>(Func<IDataReader, T> func, List<T> data)

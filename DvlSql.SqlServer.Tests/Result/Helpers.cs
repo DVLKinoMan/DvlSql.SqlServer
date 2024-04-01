@@ -20,8 +20,26 @@ namespace DvlSql.SqlServer.Result
                 .Callback(() => { index++; })
                 .Returns(() => index < list.Count);
 
-            readerMoq.Setup(reader => reader[0])
-                .Returns(() => list[index]!);
+            if (typeof(T).Namespace != "System")
+            {
+                int ind = 0;
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                    {
+                        readerMoq.Setup(reader => reader.GetName(ind))
+                            .Returns(() => prop.Name);
+                        ind++;
+                    }
+                readerMoq.Setup(reader => reader.FieldCount)
+                   .Returns(ind);
+            }
+            else
+            {
+                readerMoq.Setup(reader => reader.FieldCount)
+                    .Returns(1);//>0 value
+                readerMoq.Setup(reader => reader[0])
+                    .Returns(() => list[index]!);
+            }
 
             return readerMoq;
         }

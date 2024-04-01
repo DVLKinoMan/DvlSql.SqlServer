@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using static DvlSql.SqlServer.Result.Helpers;
 using static DvlSql.Extensions.ExpressionHelpers;
 using DvlSql.SqlServer;
+using System.Threading.Tasks;
 
 namespace DvlSql.SqlServer.Result
 {
@@ -60,17 +61,16 @@ namespace DvlSql.SqlServer.Result
 
         [Test]
         [TestCaseSource(nameof(ParametersWithoutWhere))]
-        public void AllWithoutWhere<T>(List<T> data, bool expected)
+        public async Task AllWithoutWhere<T>(List<T> data, bool expected)
         {
             var readerMoq = CreateDataReaderMock(data);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
-            var actual = new DvlSqlMs(moq.Object)
+            var actual = await new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
-                .AllAsync()
-                .Result;
+                .AllAsync();
 
             Assert.That(actual, Is.EqualTo(expected));
         }

@@ -4,8 +4,10 @@ namespace DvlSql.SqlServer.Classes
 {
     public class SomeClass : IEquatable<SomeClass>
     {
-        public readonly int SomeIntField;
-        public readonly string SomeStringField;
+        public int SomeIntField { get; set; }
+        public string? SomeStringField { get; set; }
+
+        public SomeClass() { }
 
         public SomeClass(int f1, string f2) =>
             (SomeIntField, SomeStringField) = (f1, f2);

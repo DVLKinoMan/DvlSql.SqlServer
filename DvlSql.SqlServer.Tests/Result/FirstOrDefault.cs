@@ -46,15 +46,15 @@ namespace DvlSql.SqlServer.Result
                 [
                     (Func<IDataReader, string>) (r => r[0].ToString()![..1]),
                     new List<string>(),
-                    ""//default(string)
+                    null
                 ]
             };
 
         private static readonly object[] ParametersForFirstOrDefaultWithoutFunc =
             new[]
             {
-                [new List<int>(), default(int)],
-                [new List<string>(), default(string)],
+                [new List<int>(), null],
+                [new List<string>(), null],
                 [new List<int>() {1, 2, 3, 4, 5, 15}, 1],
                 new object[] {new List<int>() {15, 5, 4, 3, 2, 1}, 15}
             };
