@@ -9,25 +9,29 @@ namespace DvlSql.SqlServer
 {
     internal static class Exts
     {
-        internal static Func<IDataReader, TResult?> RecordReaderFunc<TResult>() =>
+        internal static Func<IDataReader, TResult?> RecordReaderFunc<TResult>(Func<TResult>? defaultFunc = null) =>
           reader =>
           {
               if (typeof(TResult).IsClass && typeof(TResult).Namespace != "System")
-                  return GetObjectOfType<TResult>(reader);
+                  return GetObjectOfType(reader, defaultFunc);
 
-              return reader[0] != DBNull.Value ? (TResult?)reader[0] : default;
+              return reader[0] != DBNull.Value ? (TResult?)reader[0] : defaultFunc == null ? default : defaultFunc();
           };
 
-        internal static T GetObjectOfType<T>(this IDataReader r)
+        internal static T? GetObjectOfType<T>(this IDataReader r, Func<T>? defaultFunc = null)
         {
             var instance = Activator.CreateInstance<T>();
+            bool anyPropertySet = false;
             foreach (var innerProp in typeof(T).GetProperties())
                 if (innerProp.PropertyType.Namespace == "System" &&
                     !innerProp.PropertyType.IsGenericType(typeof(ICollection<>)) &&
                     r[innerProp.Name] != DBNull.Value)
+                {
+                    anyPropertySet = true;
                     innerProp.SetValue(instance, r[innerProp.Name]);
+                }
 
-            return instance;
+            return anyPropertySet ? instance : defaultFunc == null ? default : defaultFunc();
         }
 
         internal static IEnumerable<SqlParameter> ToSqlParameters(this IEnumerable<DvlSqlParameter> parameters) =>
