@@ -1,10 +1,8 @@
-﻿using System;
+﻿using DvlSql.SqlServer.Classes;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using DvlSql.SqlServer;
-using DvlSql.SqlServer.Classes;
-using NUnit.Framework;
-
 using static DvlSql.SqlServer.Result.Helpers;
 
 namespace DvlSql.SqlServer.Result
@@ -30,12 +28,12 @@ namespace DvlSql.SqlServer.Result
                 ],
                 [
                     (Func<IDataReader, string>) (r => ((string) r[0])[..1]),
-                    new List<string>() {"David", "Lasha"}, ""
+                    new List<string>() {"David", "Lasha"}, null
                 ],
                 [
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField + 1,
                             someClass.SomeStringField[..1]);
                     }),
@@ -46,13 +44,13 @@ namespace DvlSql.SqlServer.Result
                 [
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField + 1,
                             someClass.SomeStringField[..1]);
                     }),
                     new List<SomeClass>()
                         {new(1, "David"), new(2, "Lasga")},
-                    default(SomeClass)
+                    null
                 ]
             };
 
@@ -88,6 +86,11 @@ namespace DvlSql.SqlServer.Result
         public void SingleOrDefaultWithoutFunc<T>(List<T> data, T expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Returns(() => prop.GetValue(data[0])!);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
@@ -104,7 +107,12 @@ namespace DvlSql.SqlServer.Result
         [TestCaseSource(nameof(ParametersWithFunc))]
         public void SingleOrDefaultWithFunc<T>(Func<IDataReader, T> func, List<T> data, T expected)
         {
-            var readerMoq = CreateDataReaderMock(data);
+            var readerMoq = CreateDataReaderMock(data); 
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Returns(() => prop.GetValue(data[0])!);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 

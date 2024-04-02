@@ -55,13 +55,13 @@ namespace DvlSql.SqlServer.Result
                 {
                     (Func<IDataReader, int>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return someClass.SomeIntField +
                                someClass.SomeStringField.Length;
                     }),
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField,
                             someClass.SomeStringField[..1]);
                     }),
@@ -83,6 +83,19 @@ namespace DvlSql.SqlServer.Result
             Func<IDataReader, TValue> valueSelector, List<TData> data, Dictionary<TKey, List<TValue>> expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(TData).Namespace != "System")
+                foreach (var prop in typeof(TData).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                    {
+                        int ind = -1;
+                        readerMoq.Setup(reader => reader[prop.Name])
+                                .Callback(() =>
+                                {
+                                    ind++;
+                                })
+                                .Returns(() => prop.GetValue(data[ind/2])!);
+                    }
+
             var commandMoq = CreateSqlCommandMock<Dictionary<TKey, List<TValue>>>(readerMoq);
             var moq = CreateConnectionMock<Dictionary<TKey, List<TValue>>>(commandMoq);
 

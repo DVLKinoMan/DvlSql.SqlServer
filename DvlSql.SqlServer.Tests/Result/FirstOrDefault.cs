@@ -30,7 +30,7 @@ namespace DvlSql.SqlServer.Result
                 [
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField + 1,
                             someClass.SomeStringField[..1]);
                     }),
@@ -83,6 +83,11 @@ namespace DvlSql.SqlServer.Result
         public void FirstOrDefaultWithFunc<T>(Func<IDataReader, T> func, List<T> data, T expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Returns(() => prop.GetValue(data[0])!);
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 

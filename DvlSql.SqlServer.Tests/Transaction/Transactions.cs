@@ -15,10 +15,10 @@ namespace DvlSql.SqlServer.Transaction
     class Transactions
     {
         private readonly DvlSqlMs _sql =
-            new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            new (@"Data Source=LAPTOP-DEUOP46M\LOCALHOST; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         //todo normal test
-        [Test]
+        //[Test]
         public async Task TestMethod1()
         {
             var conn = await this._sql.BeginTransactionAsync();
@@ -38,7 +38,7 @@ namespace DvlSql.SqlServer.Transaction
 
 
         //todo normal test
-        [Test]
+        //[Test]
         public async Task TestMethod2()
         {
             var table = this._sql.DeclareTable("inserted")

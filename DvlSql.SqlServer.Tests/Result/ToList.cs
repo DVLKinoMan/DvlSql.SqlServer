@@ -53,7 +53,7 @@ namespace DvlSql.SqlServer.Result
                 {
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass((int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField + 1,
                             someClass.SomeStringField.Substring(0, 1));
                     }),
@@ -71,6 +71,15 @@ namespace DvlSql.SqlServer.Result
         public void TestToListWithFunc<T>(Func<IDataReader, T> func, List<T> data, List<T> expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                    {
+                        int ind = -1;
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Callback(() => { ind++; })
+                            .Returns(() => prop.GetValue(data[ind])!);
+                    }
             var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
             var moq = CreateConnectionMock<List<T>>(commandMoq);
 
@@ -88,6 +97,15 @@ namespace DvlSql.SqlServer.Result
         public void TestToListWithoutFunc<T>(List<T> data, List<T> expected)
         {
             var readerMoq = CreateDataReaderMock(data);
+            if (typeof(T).Namespace != "System")
+                foreach (var prop in typeof(T).GetProperties())
+                    if (prop.PropertyType.Namespace == "System")
+                    {
+                        int ind = -1;
+                        readerMoq.Setup(reader => reader[prop.Name])
+                            .Callback(() => { ind++; })
+                            .Returns(() => prop.GetValue(data[ind/2])!);
+                    }
             var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
             var moq = CreateConnectionMock<List<T>>(commandMoq);
 

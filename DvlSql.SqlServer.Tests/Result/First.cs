@@ -31,7 +31,7 @@ namespace DvlSql.SqlServer.Result
                 {
                     (Func<IDataReader, SomeClass>) (r =>
                     {
-                        var someClass = (SomeClass) r[0];
+                        var someClass = new SomeClass( (int)r[r.GetName(0)], (string)r[r.GetName(1)]);
                         return new SomeClass(someClass.SomeIntField + 1,
                             someClass.SomeStringField[..1]);
                     }),

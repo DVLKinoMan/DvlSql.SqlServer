@@ -26,7 +26,7 @@ namespace DvlSql.SqlServer
                     if (expression is DvlSqlFullSelectExpression { } select)
                         Visit(select);
                     else expression.Accept(this);
-                    this._command.Append(") ");
+                    this._command.Append(")");
                     expression.As?.Accept(this);
                     break;
             }
@@ -174,7 +174,7 @@ namespace DvlSql.SqlServer
         public void Visit(DvlSqlDeleteExpression expression)
         {
             this._command.Append(
-                $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name}" : expression.Join?.Count != 0 ? expression.FromExpression.TableName : "")} ");
+                $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name} " : expression.Join?.Count != 0 ? expression.FromExpression.TableName : "")}");
             expression.FromExpression.Accept(this);
             expression.OutputExpression?.Accept(this);
             if (expression.Join?.Count != 0)
