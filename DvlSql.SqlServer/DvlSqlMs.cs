@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer
 {

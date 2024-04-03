@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Text.RegularExpressions;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer.Select
 {

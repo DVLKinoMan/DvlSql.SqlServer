@@ -2,7 +2,7 @@ DvlSql.SqlServer
 
 Overview
 DvlSql is a powerful and easy-to-use library for creating select, update, insert, delete 
-statements for MS Sql with Linq like syntac.
+statements for MS Sql with Linq like syntax.
 
 Features
 Feature 1: Selects for MS Sql
@@ -13,7 +13,7 @@ Feature 4: Delete statements for MS Sql
 Installation
 You can install DvlSql via NuGet package manager:
 
-NuGet\Install-Package DvlSql.SqlServer -Version 3.1.3
+NuGet\Install-Package DvlSql.SqlServer -Version 3.2.0
 
 Documentation
 For detailed documentation and examples, please visit https://github.com/DVLKinoMan/DvlSql.SqlServer

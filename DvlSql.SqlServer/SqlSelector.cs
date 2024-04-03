@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer
 {

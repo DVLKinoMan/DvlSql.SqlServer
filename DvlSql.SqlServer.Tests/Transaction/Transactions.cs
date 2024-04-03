@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DvlSql.SqlServer.Result;
 using NUnit.Framework;
 
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 using static DvlSql.Extensions.SqlType;
 using static DvlSql.Extensions.DataReader;
 using DvlSql.SqlServer;

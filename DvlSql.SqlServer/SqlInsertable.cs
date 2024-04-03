@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 using static DvlSql.Extensions.SqlType;
 using static System.Exts.Extensions;
 

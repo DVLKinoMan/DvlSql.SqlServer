@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using DvlSql.Expressions;
 using DvlSql.SqlServer;
 using NUnit.Framework;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 using static DvlSql.Extensions.SqlType;
 using DateTime = System.DateTime;
 

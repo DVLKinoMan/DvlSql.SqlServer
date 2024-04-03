@@ -3,7 +3,7 @@ using DvlSql.SqlServer.Classes;
 using NUnit.Framework;
 using System.Collections.Generic;
 using static DvlSql.SqlServer.Result.Helpers;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 using DvlSql.SqlServer;
 using System.Threading.Tasks;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DvlSql.Extensions;
-using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer.TestConsole
 {
