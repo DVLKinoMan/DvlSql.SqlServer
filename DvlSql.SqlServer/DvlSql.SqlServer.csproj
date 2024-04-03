@@ -10,10 +10,12 @@
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql.SqlServer</RepositoryUrl>
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
-    <Description>DSL for Working with MS SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+    <Description>DSL for Working with MS SQL using LINQ like syntax (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <AssemblyVersion>3.2.0</AssemblyVersion>
+    <FileVersion>3.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
