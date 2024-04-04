@@ -7,10 +7,11 @@ create custom implementation.
 
 # How to use - Examples
 ```c#
-string connectionString =
-                "Data Source = serverName; Initial Catalog = databaseName; User Id = userId; Password=pass;";
-
-var dvl_sql = new DvlSqlMs(connectionString);
+//Inject into your Startup.cs file like this:
+services.AddDvlSqlMS(provider =>
+{
+    provider.ConnectionString = builder.Configuration.GetConnectionString("YourConnection")!;//YourConnection from configuration file
+});
 
 //Select ids from table ordered by date
 List<int> ids = await dvl_sql.From("tableName")
@@ -18,7 +19,7 @@ List<int> ids = await dvl_sql.From("tableName")
                         .OrderBy("date")
                         .ToListAsync(r => (int) r["id"]);
 
-//using static DvlSql.Extensions.ExpressionHelpers; (For Expressions)
+//using static DvlSql.ExpressionHelpers; (For Expressions)
 //Select top 100 youngest persons Name and Age, whose names contains david and are living in Tbilisi
 var personInfo = await dvl_sql.From("Persons")
                         .Join("Addresses", ConstantExp("Persons.Id") == ConstantExp("Addresses.PersonId"))
@@ -41,7 +42,7 @@ var affectedRows1 = await dvl_sql.InsertInto<string, string>("dbo.Words",
                             )
                             .ExecuteAsync();
 
-//using static DvlSql.Extensions.ExpressionHelpers; 
+//using static DvlSql.ExpressionHelpers; 
 //using static DvlSql.Extensions.SqlType;
 //Update product Price and UpdatedDate which price is 2.11
 var affectedRows2 = await dvl_sql.Update("dbo.Products")
@@ -52,7 +53,7 @@ var affectedRows2 = await dvl_sql.Update("dbo.Products")
                                 Param("@price", Decimal(new decimal(2.11))))
                             .ExecuteAsync();
 
-//using static DvlSql.Extensions.ExpressionHelpers; 
+//using static DvlSql.ExpressionHelpers; 
 //using static DvlSql.Extensions.SqlType;
 //Delete all words which contains test 
 var affectedRows3 = await dvl_sql.DeleteFrom("dbo.Words")
