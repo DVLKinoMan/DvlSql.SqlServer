@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.2.0</Version>
+    <Version>3.2.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>David Dvali</Company>
     <Authors>David Dvali</Authors>
@@ -14,13 +14,14 @@
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <AssemblyVersion>3.2.0</AssemblyVersion>
-    <FileVersion>3.2.0</FileVersion>
+    <AssemblyVersion>3.2.1</AssemblyVersion>
+    <FileVersion>3.2.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql.Extensions" Version="3.2.0" />
+    <PackageReference Include="DvlSql.Extensions" Version="3.2.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="SystemNET.Exts" Version="3.2.0" />
   </ItemGroup>
