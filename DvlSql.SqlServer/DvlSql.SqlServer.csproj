@@ -20,9 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="DvlSql.Extensions" Version="3.2.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="SystemNET.Exts" Version="3.2.0" />
   </ItemGroup>
 
