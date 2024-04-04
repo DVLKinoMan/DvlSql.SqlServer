@@ -13,6 +13,17 @@ services.AddDvlSqlMS(provider =>
     provider.ConnectionString = builder.Configuration.GetConnectionString("YourConnection")!;//YourConnection from configuration file
 });
 
+//Inject into your controller
+public class YourController
+{
+    private readonly IDvlSql dvl_sql;
+
+    public YourController(IDvlSql dvlSql)
+    {
+        dvl_sql = dvlSql;
+    }
+}
+
 //Select ids from table ordered by date
 List<int> ids = await dvl_sql.From("tableName")
                         .Select("id", "col1", "col2")
