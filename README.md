@@ -46,7 +46,7 @@ public class Data
 //Select record with group by from table
  public record DataRec(int DurationInMinutes, int Count);
 
- var filmNamesrecord = await _dvlSql.From("Films")
+ var durationCountsWithRecord = await _dvlSql.From("Films")
            .GroupBy("DurationInMinutes")
            .Select("DurationInMinutes", AsExp(CountExp(), "Count"))//Names must match with record names
            .OrderBy("DurationInMinutes")
