@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>David Dvali</Company>
     <Authors>David Dvali</Authors>
@@ -12,18 +12,18 @@
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
     <Description>DSL for Working with MS SQL using LINQ like syntax (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>using Microsoft.Data.SqlClient</PackageReleaseNotes>
+    <PackageReleaseNotes>Readers for struct, records and tuples</PackageReleaseNotes>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <AssemblyVersion>4.0.0</AssemblyVersion>
-    <FileVersion>4.0.0</FileVersion>
+    <AssemblyVersion>4.0.1</AssemblyVersion>
+    <FileVersion>4.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql.Extensions" Version="3.2.1" />
+    <PackageReference Include="DvlSql.Extensions" Version="3.3.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageReference Include="SystemNET.Exts" Version="3.2.0" />
+    <PackageReference Include="SystemNET.Exts" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
