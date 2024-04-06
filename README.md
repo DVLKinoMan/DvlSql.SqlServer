@@ -24,6 +24,34 @@ public class YourController
     }
 }
 
+//Select tuple with group by from table
+ var durationCounts = await _dvlSql.From("Films")
+           .GroupBy("DurationInMinutes")
+           .Select("DurationInMinutes", AsExp(CountExp(), "Count"))
+           .OrderBy("DurationInMinutes")
+           .ToListAsync<(int, int)>();
+
+//Select class with group by from table
+public class Data
+{
+    public int DurationInMinutes { get; set; }
+    public int Count { get; set; }
+}
+ var durationCounts = await _dvlSql.From("Films")
+           .GroupBy("DurationInMinutes")
+           .Select("DurationInMinutes", AsExp(CountExp(), "Count"))
+           .OrderBy("DurationInMinutes")
+           .ToListAsync<Data>();
+
+//Select record with group by from table
+ public record DataRec(int DurationInMinutes, int Count);
+
+ var durationCountsWithRecord = await _dvlSql.From("Films")
+           .GroupBy("DurationInMinutes")
+           .Select("DurationInMinutes", AsExp(CountExp(), "Count"))//Names must match with record names
+           .OrderBy("DurationInMinutes")
+           .ToListAsync<DataRec>();
+
 //Select ids from table ordered by date
 List<int> ids = await dvl_sql.From("tableName")
                         .Select("id", "col1", "col2")
