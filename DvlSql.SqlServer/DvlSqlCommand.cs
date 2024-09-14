@@ -4,56 +4,55 @@ using Microsoft.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DvlSql.SqlServer
+namespace DvlSql.SqlServer;
+
+/// <summary>
+/// todo maybe sqlcommand will have timeout and cancellationtoken already
+/// </summary>
+internal class DvlSqlCommand(SqlCommand command) : IDvlSqlCommand //: IDvlSqlCommand<TResult>
 {
-    /// <summary>
-    /// todo maybe sqlcommand will have timeout and cancellationtoken already
-    /// </summary>
-    internal class DvlSqlCommand(SqlCommand command) : IDvlSqlCommand //: IDvlSqlCommand<TResult>
+    private readonly SqlCommand _sqlCommand = command;
+
+    private static SqlCommand WithTimeout(SqlCommand command, int timeout)
     {
-        private readonly SqlCommand _sqlCommand = command;
+        command.CommandTimeout = timeout;
+        return command;
+    }
 
-        private static SqlCommand WithTimeout(SqlCommand command, int timeout)
-        {
-            command.CommandTimeout = timeout;
-            return command;
-        }
+    public async Task<int> ExecuteNonQueryAsync(int? timeout = default, CancellationToken cancellationToken = default)
+    {
+        if (timeout != null)
+            WithTimeout(this._sqlCommand, (int) timeout);
 
-        public async Task<int> ExecuteNonQueryAsync(int? timeout = default, CancellationToken cancellationToken = default)
-        {
-            if (timeout != null)
-                WithTimeout(this._sqlCommand, (int) timeout);
+        return await this._sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+    }
 
-            return await this._sqlCommand.ExecuteNonQueryAsync(cancellationToken);
-        }
+    public async Task<TResult> ExecuteReaderAsync<TResult>(Func<IDataReader, TResult> converterFunc,
+        int? timeout = default,
+        CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
+    {
+        if (timeout != null)
+            WithTimeout(this._sqlCommand, (int) timeout);
 
-        public async Task<TResult> ExecuteReaderAsync<TResult>(Func<IDataReader, TResult> converterFunc,
-            int? timeout = default,
-            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
-        {
-            if (timeout != null)
-                WithTimeout(this._sqlCommand, (int) timeout);
+        await using var reader = await this._sqlCommand.ExecuteReaderAsync(behavior, cancellationToken);
 
-            await using var reader = await this._sqlCommand.ExecuteReaderAsync(behavior, cancellationToken);
+        return converterFunc(reader);
+    }
 
-            return converterFunc(reader);
-        }
+    public async Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, 
+        int? timeout = default, CancellationToken cancellationToken = default)
+    {
+        if (timeout != null)
+            WithTimeout(this._sqlCommand, (int)timeout);
 
-        public async Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, 
-            int? timeout = default, CancellationToken cancellationToken = default)
-        {
-            if (timeout != null)
-                WithTimeout(this._sqlCommand, (int)timeout);
+        var result = await this._sqlCommand.ExecuteScalarAsync(cancellationToken);
 
-            var result = await this._sqlCommand.ExecuteScalarAsync(cancellationToken);
+        return converterFunc(result);
+    }
 
-            return converterFunc(result);
-        }
-
-        public void Dispose()
-        {
-            _sqlCommand?.Dispose();
-            this._sqlCommand?.Parameters.Clear();
-        }
+    public void Dispose()
+    {
+        _sqlCommand?.Dispose();
+        this._sqlCommand?.Parameters.Clear();
     }
 }

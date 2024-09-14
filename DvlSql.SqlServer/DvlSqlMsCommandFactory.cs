@@ -2,26 +2,25 @@
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 
-namespace DvlSql.SqlServer
+namespace DvlSql.SqlServer;
+
+internal class DvlSqlMsCommandFactory : IDvlSqlMsCommandFactory
 {
-    internal class DvlSqlMsCommandFactory : IDvlSqlMsCommandFactory
+    public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction? transaction = null,
+        params SqlParameter[]? parameters)
     {
-        public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction? transaction = null,
-            params SqlParameter[]? parameters)
+        var command = new SqlCommand(sqlString, connection)
         {
-            var command = new SqlCommand(sqlString, connection)
-            {
-                CommandType = commandType
-            };
+            CommandType = commandType
+        };
 
-            if (transaction != null)
-                command.Transaction = (SqlTransaction)transaction;
+        if (transaction != null)
+            command.Transaction = (SqlTransaction)transaction;
 
-            if (parameters != null)
-                foreach (var parameter in parameters)
-                    command.Parameters.Add(parameter);
+        if (parameters != null)
+            foreach (var parameter in parameters)
+                command.Parameters.Add(parameter);
 
-            return new DvlSqlCommand(command);
-        }
+        return new DvlSqlCommand(command);
     }
 }

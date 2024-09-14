@@ -2,11 +2,10 @@
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 
-namespace DvlSql.SqlServer
+namespace DvlSql.SqlServer;
+
+public interface IDvlSqlMsCommandFactory
 {
-    public interface IDvlSqlMsCommandFactory
-    {
-        IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection,
-            string sqlString, DbTransaction? transaction = null, params SqlParameter[]? parameters);
-    }
+    IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection,
+        string sqlString, DbTransaction? transaction = null, params SqlParameter[]? parameters);
 }
