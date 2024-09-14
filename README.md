@@ -25,7 +25,7 @@ public class YourController
 }
 
 //Select tuple with group by from table
- var durationCounts = await _dvlSql.From("Films")
+ var durationCounts = await dvl_sql.From("Films")
            .GroupBy("DurationInMinutes")
            .Select("DurationInMinutes", AsExp(CountExp(), "Count"))
            .OrderBy("DurationInMinutes")
@@ -37,7 +37,7 @@ public class Data
     public int DurationInMinutes { get; set; }
     public int Count { get; set; }
 }
- var durationCounts = await _dvlSql.From("Films")
+ var durationCounts = await dvl_sql.From("Films")
            .GroupBy("DurationInMinutes")
            .Select("DurationInMinutes", AsExp(CountExp(), "Count"))
            .OrderBy("DurationInMinutes")
@@ -46,7 +46,7 @@ public class Data
 //Select record with group by from table
  public record DataRec(int DurationInMinutes, int Count);
 
- var durationCountsWithRecord = await _dvlSql.From("Films")
+ var durationCountsWithRecord = await dvl_sql.From("Films")
            .GroupBy("DurationInMinutes")
            .Select("DurationInMinutes", AsExp(CountExp(), "Count"))//Names must match with record names
            .OrderBy("DurationInMinutes")
