@@ -35,7 +35,7 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
     public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
         await GetInsertDeleteExecutable().ExecuteAsync(timeout, cancellationToken);
 
-    public IDeleteJoinable Join(string tableName, DvlSqlComparisonExpression compExpression)
+    public IDeleteJoinable Join<T>(string tableName, DvlSqlComparisonExpression<T> compExpression)
     {
         this.DeleteExpression.AddJoin(InnerJoinExp(tableName, compExpression));
         return this;
@@ -43,11 +43,12 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
 
     public IDeleteJoinable Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        this.DeleteExpression.AddJoin(InnerJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        //todo
+        //this.DeleteExpression.AddJoin(InnerJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
-    public IDeleteJoinable FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public IDeleteJoinable FullJoin<T>(string tableName, DvlSqlComparisonExpression<T> compExpression)
     {
         this.DeleteExpression.AddJoin(FullJoinExp(tableName, compExpression));
         return this;
@@ -55,11 +56,12 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
 
     public IDeleteJoinable FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        this.DeleteExpression.AddJoin(FullJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        //todo
+        //this.DeleteExpression.AddJoin(FullJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
-    public IDeleteJoinable LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public IDeleteJoinable LeftJoin<T>(string tableName, DvlSqlComparisonExpression<T> compExpression)
     {
         this.DeleteExpression.AddJoin(LeftJoinExp(tableName, compExpression));
         return this;
@@ -67,11 +69,12 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
 
     public IDeleteJoinable LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        this.DeleteExpression.AddJoin(LeftJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        //todo
+        //this.DeleteExpression.AddJoin(LeftJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
-    public IDeleteJoinable RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public IDeleteJoinable RightJoin<T>(string tableName, DvlSqlComparisonExpression<T> compExpression)
     {
         this.DeleteExpression.AddJoin(RightJoinExp(tableName, compExpression));
         return this;
@@ -79,7 +82,8 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
 
     public IDeleteJoinable RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        this.DeleteExpression.AddJoin(RightJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        //todo
+        //this.DeleteExpression.AddJoin(RightJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 }

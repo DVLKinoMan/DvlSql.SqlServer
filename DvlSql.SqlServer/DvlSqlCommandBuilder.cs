@@ -71,14 +71,17 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
     public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) =>
         this._command.Append(expression.StringValue.GetEscapedString(false));
 
-    public void Visit(DvlSqlJoinExpression expression)
+    public void Visit<TValue>(DvlSqlMemberExpression<TValue> expression) =>
+        this._command.Append(expression.MemberName);
+
+    public void Visit<T>(DvlSqlJoinExpression<T> expression)
     {
         string joinCommand = expression switch
         {
-            DvlSqlFullJoinExpression _ => "FULL OUTER JOIN",
-            DvlSqlInnerJoinExpression _ => "INNER JOIN",
-            DvlSqlLeftJoinExpression _ => "LEFT OUTER JOIN",
-            DvlSqlRightJoinExpression _ => "RIGHT OUTER JOIN",
+            DvlSqlFullJoinExpression<T> _ => "FULL OUTER JOIN",
+            DvlSqlInnerJoinExpression<T> _ => "INNER JOIN",
+            DvlSqlLeftJoinExpression<T> _ => "LEFT OUTER JOIN",
+            DvlSqlRightJoinExpression<T> _ => "RIGHT OUTER JOIN",
             _ => throw new NotImplementedException("JoinExpression not implemented")
         };
 
@@ -344,7 +347,7 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
         this._command.Append(this._command[^1] == ')'? ")" : " )");
     }
 
-    public void Visit(DvlSqlComparisonExpression expression)
+    public void Visit<T>(DvlSqlComparisonExpression<T> expression)
     {
         expression.LeftExpression.Accept(this);
 

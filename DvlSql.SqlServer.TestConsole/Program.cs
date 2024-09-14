@@ -19,7 +19,8 @@ namespace DvlSql.SqlServer.TestConsole
 
             //Select ids from table ordered by date
             var films = dvl_sql.From("Films")
-                                    .Select()
+                                    .Where("some" == ConstantExp("val"))
+                                    .Select(CountExp("kk"))
                                     .ToListAsync<Film>()
                                     .Result;
         }
