@@ -108,11 +108,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public ISelector Join<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.CurrFullSelectExpression.Join?.Add(new DvlSqlInnerJoinExpression(tableName,
-        //    new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+        this.CurrFullSelectExpression.Join?.Add(InnerJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -122,11 +120,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public ISelector FullJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.CurrFullSelectExpression.Join?.Add(new DvlSqlFullJoinExpression(tableName,
-        //    new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+        this.CurrFullSelectExpression.Join?.Add(FullJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -136,11 +132,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public ISelector LeftJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.CurrFullSelectExpression.Join?.Add(new DvlSqlLeftJoinExpression(tableName,
-        //    new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+        this.CurrFullSelectExpression.Join?.Add(LeftJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -150,11 +144,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public ISelector RightJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.CurrFullSelectExpression.Join?.Add(new DvlSqlRightJoinExpression(tableName,
-        //    new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+        this.CurrFullSelectExpression.Join?.Add(RightJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 

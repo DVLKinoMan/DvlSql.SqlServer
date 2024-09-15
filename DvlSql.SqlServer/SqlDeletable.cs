@@ -41,10 +41,9 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
         return this;
     }
 
-    public IDeleteJoinable Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public IDeleteJoinable Join<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.DeleteExpression.AddJoin(InnerJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        this.DeleteExpression.AddJoin(InnerJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -54,10 +53,9 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
         return this;
     }
 
-    public IDeleteJoinable FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public IDeleteJoinable FullJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.DeleteExpression.AddJoin(FullJoinExp(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        this.DeleteExpression.AddJoin(FullJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -67,10 +65,9 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
         return this;
     }
 
-    public IDeleteJoinable LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public IDeleteJoinable LeftJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.DeleteExpression.AddJoin(LeftJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        this.DeleteExpression.AddJoin(LeftJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 
@@ -80,10 +77,9 @@ internal class SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSq
         return this;
     }
 
-    public IDeleteJoinable RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+    public IDeleteJoinable RightJoin<T>(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
     {
-        //todo
-        //this.DeleteExpression.AddJoin(RightJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
+        this.DeleteExpression.AddJoin(RightJoinExp<T>(tableName, firstTableMatchingCol, secondTableMatchingCol));
         return this;
     }
 }
