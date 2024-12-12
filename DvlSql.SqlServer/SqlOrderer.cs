@@ -26,8 +26,8 @@ internal class SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) : 
             fetchNextRows
             );
 
-    public async Task<List<TResult>> ToListAsync<TResult>(
-        Func<IDataReader, TResult> selectorFunc,
+    public async Task<List<TResult?>> ToListAsync<TResult>(
+        Func<IDataReader, TResult?> selectorFunc,
         int? timeout = default,
         CommandBehavior behavior = CommandBehavior.Default, 
         CancellationToken cancellationToken = default) 
@@ -53,9 +53,9 @@ internal class SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) : 
             this._selector.ToString(),
             parameters: this._selector.GetDvlSqlParameters()?.ToArray());
 
-    public async Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
+    public async Task<Dictionary<TKey, List<TValue?>>> ToDictionaryAsync<TKey, TValue>(
         Func<IDataReader, TKey> keySelector,
-        Func<IDataReader, TValue> valueSelector,
+        Func<IDataReader, TValue?> valueSelector,
         int? timeout = default,
         CommandBehavior behavior = CommandBehavior.Default, 
         CancellationToken cancellationToken = default)
@@ -98,7 +98,7 @@ internal class SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) : 
             cancellationToken);
 
     public async Task<TResult?> FirstOrDefaultAsync<TResult>(
-        Func<IDataReader, TResult> readerFunc,
+        Func<IDataReader, TResult?> readerFunc,
         int? timeout = default, 
         CancellationToken cancellationToken = default) 
         => await this._connection.ConnectAsync(
